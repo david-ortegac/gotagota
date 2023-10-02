@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Sede;
 
 class SedeSeeder extends Seeder
 {
@@ -12,6 +13,6 @@ class SedeSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $sede = Sede::factory()->create();
     }
 }

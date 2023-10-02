@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 /**
  * Class Employee
@@ -27,7 +29,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Employee extends Model
 {
-    
+    use HasFactory;
+
     static $rules = [
 		'route_id' => 'required',
 		'name' => 'required',
@@ -65,7 +68,7 @@ class Employee extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function user()
+    public function created_by()
     {
         return $this->hasOne('App\Models\User', 'id', 'created_by');
     }
@@ -73,7 +76,7 @@ class Employee extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function user()
+    public function modified_by()
     {
         return $this->hasOne('App\Models\User', 'id', 'modified_by');
     }

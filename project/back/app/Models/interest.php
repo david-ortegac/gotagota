@@ -43,7 +43,7 @@ class Interest extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function user()
+    public function created_by()
     {
         return $this->hasOne('App\Models\User', 'id', 'created_by');
     }
@@ -51,7 +51,7 @@ class Interest extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function user()
+    public function modified_by()
     {
         return $this->hasOne('App\Models\User', 'id', 'modified_by');
     }

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 /**
  * Class Route
@@ -25,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Route extends Model
 {
+    use HasFactory;
     
     static $rules = [
 		'sede_id' => 'required',
