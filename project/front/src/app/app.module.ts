@@ -15,6 +15,10 @@ import { HeroComponent } from './components/estructura/hero/hero.component';
 import { FooterComponent } from './components/estructura/footer/footer.component';
 import { HeaderComponent } from './components/estructura/header/header.component';
 
+//Prime NG
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +36,8 @@ import { HeaderComponent } from './components/estructura/header/header.component
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
