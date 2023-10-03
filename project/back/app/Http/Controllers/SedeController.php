@@ -20,8 +20,12 @@ class SedeController extends Controller
     {
         $sedes = Sede::paginate();
 
-        return view('sede.index', compact('sedes'))
-            ->with('i', (request()->input('page', 1) - 1) * $sedes->perPage());
+        if ($sedes->count() > 0) {
+            return response()->json($sedes, 200);
+        } else {
+            return response()->json($sedes, 404);
+        }
+
     }
 
     /**

@@ -20,8 +20,18 @@ class EmployeeController extends Controller
     {
         $employees = Employee::paginate();
 
-        return view('employee.index', compact('employees'))
-            ->with('i', (request()->input('page', 1) - 1) * $employees->perPage());
+        foreach ($employees as $employee){
+            $employee->route = $employee->route->number;
+            $employee->created_by = $employee->createdBy;
+            $employee->modified_by = $employee->modifiedBy;
+        }
+
+        if ($employees->count() > 0) {
+            return response()->json($employees, 200);
+        } else {
+            return response()->json($employees, 404);
+        }
+
     }
 
     /**

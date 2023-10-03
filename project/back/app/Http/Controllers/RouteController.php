@@ -20,8 +20,18 @@ class RouteController extends Controller
     {
         $routes = Route::paginate();
 
-        return view('route.index', compact('routes'))
-            ->with('i', (request()->input('page', 1) - 1) * $routes->perPage());
+        foreach ($routes as $route){
+            $route->sede_id = $route->sede->name;
+            $route->created_by = $route->createdBy;
+            $route->modified_by = $route->modifiedBy;
+        }
+
+        if ($routes->count() > 0) {
+            return response()->json($routes, 200);
+        } else {
+            return response()->json($routes, 404);
+        }
+
     }
 
     /**

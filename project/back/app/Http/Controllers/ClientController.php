@@ -20,8 +20,17 @@ class ClientController extends Controller
     {
         $clients = Client::paginate();
 
-        return view('client.index', compact('clients'))
-            ->with('i', (request()->input('page', 1) - 1) * $clients->perPage());
+        foreach ($clients as $client){
+            $client->created_by = $client->createdBy;
+            $client->modified_by = $client->modifiedBy;
+            $client->route = $client->route->number;
+        } 
+        if($clients->count()>0){
+            return response()->json($clients, 200);
+        }else{
+            return response()->json($clients, 404);
+        }
+        
     }
 
     /**

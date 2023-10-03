@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         
         $this->call(SedeSeeder::class);
         $this->call(RouteSeeder::class);
+        $this->call(EmployeeSeeder::class);
         $this->call(ClientSeeder::class);
 
     }

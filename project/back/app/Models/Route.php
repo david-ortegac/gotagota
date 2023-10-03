@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Route
@@ -28,23 +27,33 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Route extends Model
 {
     use HasFactory;
-    
+
     static $rules = [
-		'sede_id' => 'required',
-		'number' => 'required',
-		'created_by' => 'required',
-		'modified_by' => 'required',
+        'sede_id' => 'required',
+        'number' => 'required',
+        'created_by' => 'required',
+        'modified_by' => 'required',
     ];
 
     protected $perPage = 20;
+
+    protected $hidden = [
+        'sede_id',
+        'created_by',
+        'modified_by',
+    ];
 
     /**
      * Attributes that should be mass-assignable.
      *
      * @var array
      */
-    protected $fillable = ['sede_id','number','created_by','modified_by'];
-
+    protected $fillable = [
+        'sede_id',
+        'number',
+        'created_by',
+        'modified_by',
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -53,7 +62,7 @@ class Route extends Model
     {
         return $this->hasMany('App\Models\Client', 'route_id', 'id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -61,30 +70,32 @@ class Route extends Model
     {
         return $this->hasMany('App\Models\Employee', 'route_id', 'id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function sede()
     {
-        return $this->hasOne('App\Models\Sede', 'id', 'sede_id');
+        return $this->hasOne('App\Models\Sede', 'id', 'sede_id')
+        ->select(array('name'));
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function created_by()
+    public function createdBy()
     {
-        return $this->hasOne('App\Models\User', 'id', 'created_by');
+        return $this->hasOne('App\Models\User', 'id', 'created_by')
+        ->select(array('name','email'));
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function modified_by()
+    public function modifiedBy()
     {
-        return $this->hasOne('App\Models\User', 'id', 'modified_by');
+        return $this->hasOne('App\Models\User', 'id', 'modified_by')
+        ->select(array('name','email'));
     }
-    
 
 }
