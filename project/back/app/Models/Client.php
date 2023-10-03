@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $last_name
  * @property $email
  * @property $phone
+ * @property $neighborhood
  * @property $address
  * @property $city
  * @property $profession
@@ -40,6 +41,7 @@ class Client extends Model
         'name' => 'required',
         'last_name' => 'required',
         'phone' => 'required',
+        'neighborhood' => 'required',
         'address' => 'required',
         'city' => 'required',
         'profession' => 'required',
@@ -68,6 +70,7 @@ class Client extends Model
         'last_name',
         'email',
         'phone',
+        'neighborhood',
         'address',
         'city',
         'profession',
