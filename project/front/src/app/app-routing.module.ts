@@ -5,6 +5,10 @@ import { LoginComponent } from './components/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { HomeComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/register/register.component';
+import { RoutesComponent } from './components/routes/routes.component';
+import { SedesComponent } from './components/sedes/sedes.component';
+import { ClientsComponent } from './components/clients/clients.component';
+import { EmployeesComponent } from './components/employees/employees.component';
 
 const routes: Routes = [
   {
@@ -17,8 +21,17 @@ const routes: Routes = [
     path: 'index', component: HomeComponent,
     children: [
       {
-        path: '', redirectTo: 'dashboard', pathMatch: 'full'
-      }
+        path: 'sedes', component: SedesComponent
+      },
+      {
+        path: 'routes', component: RoutesComponent
+      },
+      {
+        path: 'clients', component: ClientsComponent
+      },
+      {
+        path: 'employees', component: EmployeesComponent
+      },
     ]
   },
   //Wild Card Route for 404 request

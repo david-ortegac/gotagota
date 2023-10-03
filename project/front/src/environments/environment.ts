@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: '' // validar TODO
+    apiUrl: 'http://localhost/gotagota/project/back/public/api/' // validar TODO
 };
