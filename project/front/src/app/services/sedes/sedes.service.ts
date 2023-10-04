@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Pageable } from 'src/app/models/pageable';
 import { Sede } from 'src/app/models/Sede';
 import { environment } from 'src/environments/environment';
-import { Pageable } from 'src/app/models/pageable';
 
 @Injectable({
   providedIn: 'root'
