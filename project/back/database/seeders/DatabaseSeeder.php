@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'David',
             'email' => 'davidortegacadena@gmail.com',
             'password' => bcrypt('12345678'),
+            'status' => true
         ]);
         
         $this->call(SedeSeeder::class);

@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { LoginComponent } from './components/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
@@ -16,6 +17,9 @@ import { HeaderComponent } from './components/estructura/header/header.component
 //Prime NG
 import { TableModule } from 'primeng/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+
 
 import { SedesComponent } from './components/sedes/sedes.component';
 import { RoutesComponent } from './components/routes/routes.component';
@@ -44,7 +48,10 @@ import { ClientsComponent } from './components/clients/clients.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     TableModule,
-    HttpClientModule
+    HttpClientModule,
+    InputTextModule,
+    PasswordModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
