@@ -1,11 +1,4 @@
-export interface Login {
-    status: string;
-    data: Data;
-    token: string;
-}
-
-export interface Data{
-    id: number;
-    name: string;
+export interface Login{
     email: string;
+    password: string;
 }

@@ -34,13 +34,13 @@ class AuthController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
-        
+
         $token = $user->createToken('token')->plainTextToken;
         return response()->json([
-            'Data'=>$user, 
-            'access_token'=>$token,
-            'token_type'=>'Bearer',
-            'status'=>Response::HTTP_CREATED
+            'Data' => $user,
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            'status' => Response::HTTP_CREATED,
         ]);
     }
 
@@ -53,13 +53,18 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            $token = $user->createToken('token')->plainTextToken;
-            $cookie = cookie('cookie_token', $token, 60 * 24);
-            return response()->json([
-                "status"=>true,
-                "data"=>$user,
-                "token" => $token,
+            if ($user->status == 1) {
+                $token = $user->createToken('token')->plainTextToken;
+                $cookie = cookie('cookie_token', $token, 60 * 24);
+                return response()->json([
+                    "status" => true,
+                    "data" => $user,
+                    "token" => $token,
                 ], Response::HTTP_OK)->withoutCookie($cookie);
+            } else {
+                return response(["message" => "Usuario no autorizado"], Response::HTTP_UNAUTHORIZED);
+            }
+
         } else {
             return response(["message" => "Credenciales inválidas"], Response::HTTP_UNAUTHORIZED);
         }

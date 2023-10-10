@@ -13,6 +13,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "sweetalert2"
+            ],
             "outputPath": "dist/front",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -67,7 +70,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "proxyConfig": "src/proxy.conf.json"
+            "browserTarget": "front:build",
+            "proxyConfig": "src/proxy.conf.mjs"
           },
           "configurations": {
             "production": {
