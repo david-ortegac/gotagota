@@ -6,6 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 import Swal from 'sweetalert2'
+import { encrypt } from 'src/app/utils/util-encrypt';
 
 @Component({
   selector: 'app-login',
@@ -44,6 +45,8 @@ export class LoginComponent implements OnInit {
 
     this.loginService.login(login).subscribe(res => {
       this.user = res;
+       
+      sessionStorage.setItem('tk', encrypt(res.token!))
       Swal.fire({
         position: 'center',
         icon: 'success',
