@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('spread_sheets', function (Blueprint $table) {
             $table->id();
+            $table->date('generationDate');
+            $table->date('loandDate');
             $table->foreignId('loan_id')->references('id')->on('loans');
             $table->foreignId('employee_id')->references('id')->on('employees');
             $table->integer('order');

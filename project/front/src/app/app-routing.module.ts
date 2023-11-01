@@ -9,6 +9,7 @@ import { RoutesComponent } from './components/routes/routes.component';
 import { SedesComponent } from './components/sedes/sedes.component';
 import { ClientsComponent } from './components/clients/clients.component';
 import { EmployeesComponent } from './components/employees/employees.component';
+import { DailyCharsComponent } from './components/daily-chars/daily-chars.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,9 @@ const routes: Routes = [
   {
     path: 'index', component: HomeComponent,
     children: [
+      {
+        path: '', component: DailyCharsComponent
+      },
       {
         path: 'sedes', component: SedesComponent
       },

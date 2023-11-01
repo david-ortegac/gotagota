@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
 
     this.loginService.login(login).subscribe(res => {
       this.user = res;
-       
+      console.log(res.token);
       sessionStorage.setItem('tk', encrypt(res.token!))
       Swal.fire({
         position: 'center',

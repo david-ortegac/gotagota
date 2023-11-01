@@ -20,13 +20,13 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->foreignId('route_id')->references('id')->on('routes');
+            $table->integer('code');
             $table->string('name');
             $table->string('last_name');
-            $table->string('email')->nullable();
             $table->string('phone');
+            $table->string('city');
             $table->string('neighborhood');
             $table->string('address');
-            $table->string('city');
             $table->string('profession');
             $table->text('notes');
             $table->string('type');

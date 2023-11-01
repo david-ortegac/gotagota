@@ -1,6 +1,6 @@
+import { Sede } from './../../models/Sede';
 import { Component } from '@angular/core';
-import { Sede } from 'src/app/models/Sede';
-import { Pageable } from 'src/app/models/pageable';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SedesService } from 'src/app/services/sedes/sedes.service';
 
 @Component({
@@ -10,15 +10,44 @@ import { SedesService } from 'src/app/services/sedes/sedes.service';
 })
 export class SedesComponent {
   sedes: Sede[] = [];
+  newSede: boolean = false;
+  form: FormGroup;
   
-  constructor(private sedesService: SedesService) {
+  constructor(
+    private sedesService: SedesService,
+  ) {
     this.getAllSedes();
+    this.form = new FormGroup({
+      name: new FormControl('', [Validators.minLength(3), Validators.required]),
+    });
   }
 
   getAllSedes() {
     this.sedesService.getSedes().subscribe(res => {
+      console.log(res);
       this.sedes = res.data;
     });
-    console.log(this.sedes);
+  }
+
+  createNewSede() {
+    const sede: Sede = {
+      name: this.form.get('name')?.value 
+    }
+    
+    this.sedesService.createSede(sede).subscribe(res => {
+      console.log(res.data);
+      this.getAllSedes();
+    }, error => {
+      console.log(error);
+    })
+    
+  }
+
+  openCreateSede() {
+    this.newSede =true
+  }
+
+  closeCreateSede() {
+    this.newSede = false;
   }
 }

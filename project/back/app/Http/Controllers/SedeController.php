@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sede;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class SedeController
@@ -20,23 +21,18 @@ class SedeController extends Controller
     {
         $sedes = Sede::paginate();
 
+        foreach ($sedes as $sede) {
+            $sede->created_by = $sede->createdBy;
+            $sede->modified_by = $sede->modifiedBy;
+
+        }
+
         if ($sedes->count() > 0) {
             return response()->json($sedes, 200);
         } else {
             return response()->json($sedes, 404);
         }
 
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $sede = new Sede();
-        return view('sede.create', compact('sede'));
     }
 
     /**
@@ -47,38 +43,20 @@ class SedeController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(Sede::$rules);
+        $validated = request()->validate(Sede::$rules);
 
-        $sede = Sede::create($request->all());
+        $sede = new Sede;
+        $sede->name = $request->name;
+        $sede->created_by = Auth()->User()->id;
+        $sede->modified_by = Auth()->User()->id;
 
-        return redirect()->route('sedes.index')
-            ->with('success', 'Sede created successfully.');
-    }
+        $sede->save();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $sede = Sede::find($id);
-
-        return view('sede.show', compact('sede'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $sede = Sede::find($id);
-
-        return view('sede.edit', compact('sede'));
+        if ($validated) {
+            return response()->json($sede, 201);
+        } else {
+            return response()->json(error, 404);
+        }
     }
 
     /**
@@ -90,12 +68,22 @@ class SedeController extends Controller
      */
     public function update(Request $request, Sede $sede)
     {
-        request()->validate(Sede::$rules);
 
-        $sede->update($request->all());
+        return $request;
+        $validated = request()->validate(Sede::$rules);
 
-        return redirect()->route('sedes.index')
-            ->with('success', 'Sede updated successfully');
+        $sede = Sede::findOrFail($request->id);
+        $sede->name = $request->name;
+        $sede->modified_by = Auth()->User()->id;
+
+        $sede->update();
+
+        if ($validated) {
+            return response()->json($sede, 201);
+        } else {
+            return response()->json(error, 404);
+        }
+
     }
 
     /**

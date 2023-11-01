@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Sede
@@ -26,11 +25,8 @@ class Sede extends Model
 {
     use HasFactory;
 
-    
     static $rules = [
-		'name' => 'required',
-		'created_by' => 'required',
-		'modified_by' => 'required',
+        'name' => 'required',
     ];
 
     protected $perPage = 20;
@@ -43,9 +39,8 @@ class Sede extends Model
     protected $fillable = [
         'name',
         'created_by',
-        'modified_by'
+        'modified_by',
     ];
-
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -54,22 +49,23 @@ class Sede extends Model
     {
         return $this->hasMany('App\Models\Route', 'sede_id', 'id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function modified_by()
+    public function modifiedBy()
     {
-        return $this->hasOne('App\Models\User', 'id', 'modified_by');
+        return $this->hasOne('App\Models\User', 'id', 'modified_by')
+        ->select(array('name', 'email'));
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function created_by()
+    public function createdBy()
     {
-        return $this->hasOne('App\Models\User', 'id', 'created_by');
+        return $this->hasOne('App\Models\User', 'id', 'created_by')
+        ->select(array('name','email'));;
     }
-    
 
 }

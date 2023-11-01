@@ -22,7 +22,9 @@ class StoreClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required',
+            'created_by' => 'required',
+            'modified_by' => 'required',
         ];
     }
 }

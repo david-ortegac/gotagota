@@ -13,19 +13,19 @@ export class LoginService {
 
   url: string;
   user!: User;
+  tk = "";
 
   constructor(private httpClient: HttpClient) {
     this.url = environment.apiUrl
   }
 
-  tk = decrypt(sessionStorage.getItem('tk')!);
-
-  headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer '+ this.tk
-  });
-
-
+  validateAndDecryptToken() {
+    try {
+      this.tk = decrypt(sessionStorage.getItem('tk')!);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   login(login: Login): Observable<User> {
     console.log(this.tk);
@@ -33,7 +33,13 @@ export class LoginService {
   }
 
   logout() {
-    return this.httpClient.post(this.url + ('logout'), { headers: this.headers });
+    this.validateAndDecryptToken();
+    return this.httpClient.post(this.url + ('logout'), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer " + this.tk
+      }
+    });
   }
 
 }

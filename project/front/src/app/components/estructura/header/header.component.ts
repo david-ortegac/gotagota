@@ -1,6 +1,6 @@
 import { Component, Inject, Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginService } from 'src/app/services/login/login.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { decrypt } from 'src/app/utils/util-encrypt';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-
+  
   isMenuOpenned: boolean = true;
 
   constructor(

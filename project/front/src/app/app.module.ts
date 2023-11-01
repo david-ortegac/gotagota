@@ -19,6 +19,7 @@ import { TableModule } from 'primeng/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { ButtonModule } from 'primeng/button';
 
 
 import { SedesComponent } from './components/sedes/sedes.component';
@@ -49,7 +50,8 @@ import { ClientsComponent } from './components/clients/clients.component';
     HttpClientModule,
     InputTextModule,
     PasswordModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
