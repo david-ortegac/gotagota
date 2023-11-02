@@ -3,7 +3,6 @@
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\SedeController;
 use App\Http\Controllers\RouteController;
-use App\Http\Controllers\EmployeeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
@@ -36,5 +35,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::resource('/route', RouteController::class);
-Route::resource('/employee', EmployeeController::class);
 Route::resource('/clients', ClientController::class);

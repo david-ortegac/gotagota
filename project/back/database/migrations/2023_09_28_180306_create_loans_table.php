@@ -22,16 +22,16 @@ return new class extends Migration
             $table->foreignId('client_id')->references('id')->on('clients');
             $table->decimal('amount'); //MONTO
             $table->string('paymentDays'); //fecha pago
-            $table->string('type'); //tipo de pago diario o mensual (MODALIDAD)
-            $table->bigInteger('abono'); //Abono diario
-            $table->decimal('payment'); //ULTIMA CUOTA (PAGO)
-            $table->decimal('pico'); // si da menos de la cuota
-
-            $table->decimal('remainingAmount'); //ULTIMA CUOTA
-            $table->integer('daysPastDue');
-            $table->date('lastPayment');
-            $table->date('startDate');
-            $table->date('finalDate');
+            $table->string('paymentType'); //tipo de pago diario o mensual (MODALIDAD)
+            $table->bigInteger('deposit'); //Abono diario
+            $table->decimal('lastInstallment'); //ULTIMA CUOTA (PAGO)
+            $table->decimal('remainingBalance'); // si da menos de la cuota (PICO)
+            $table->decimal('remainingAmount'); // saldo restante
+            
+            $table->integer('daysPastDue'); // dias de mora
+            $table->date('lastPayment'); // ultimo pago
+            $table->date('startDate'); // fecha inicio
+            $table->date('finalDate'); // fecha final
 
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
