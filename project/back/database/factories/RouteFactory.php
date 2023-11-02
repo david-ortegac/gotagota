@@ -20,6 +20,7 @@ class RouteFactory extends Factory
         return [
             'sede_id'=>1,
             'number'=>$this->faker->randomElement(['1', '2', '3', '4', '5']),
+            'name'=>$this->faker->city(),
             'created_by' => 1, // Puedes personalizar el valor del creador
             'modified_by' => 1, // Puedes personalizar el valor del modificador
         ];

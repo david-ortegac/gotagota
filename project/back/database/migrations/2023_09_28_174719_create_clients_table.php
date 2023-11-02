@@ -20,7 +20,6 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->foreignId('route_id')->references('id')->on('routes');
-            $table->integer('code');
             $table->string('name');
             $table->string('last_name');
             $table->string('phone');
@@ -28,8 +27,8 @@ return new class extends Migration
             $table->string('neighborhood');
             $table->string('address');
             $table->string('profession');
-            $table->text('notes');
-            $table->string('type');
+            $table->text('notes')->nullable();
+            $table->string('type')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
             $table->unsignedBigInteger('modified_by');
