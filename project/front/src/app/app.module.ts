@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -27,6 +27,7 @@ import { RoutesComponent } from './components/routes/routes.component';
 import { EmployeesComponent } from './components/employees/employees.component';
 import { ClientsComponent } from './components/clients/clients.component';
 import { IonicModule } from '@ionic/angular';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,13 @@ import { IonicModule } from '@ionic/angular';
     PasswordModule,
     ReactiveFormsModule,
     ButtonModule,
-    IonicModule.forRoot({})
+    IonicModule.forRoot({}),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
