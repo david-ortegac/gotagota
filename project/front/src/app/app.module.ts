@@ -26,6 +26,7 @@ import { SedesComponent } from './components/sedes/sedes.component';
 import { RoutesComponent } from './components/routes/routes.component';
 import { EmployeesComponent } from './components/employees/employees.component';
 import { ClientsComponent } from './components/clients/clients.component';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { ClientsComponent } from './components/clients/clients.component';
     InputTextModule,
     PasswordModule,
     ReactiveFormsModule,
-    ButtonModule
+    ButtonModule,
+    IonicModule.forRoot({})
   ],
   providers: [],
   bootstrap: [AppComponent]

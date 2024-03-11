@@ -6,7 +6,9 @@
     "start": "ng serve --proxy-config --disable-host-check",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "ionic:build": "npm run build",
+    "ionic:serve": "npm run start"
   },
   "private": true,
   "dependencies": {
@@ -18,10 +20,16 @@
     "@angular/platform-browser": "^17.2.4",
     "@angular/platform-browser-dynamic": "^17.2.4",
     "@angular/router": "^17.2.4",
+    "@capacitor/app": "next",
+    "@capacitor/core": "next",
+    "@capacitor/haptics": "next",
+    "@capacitor/keyboard": "next",
+    "@capacitor/status-bar": "next",
+    "@ionic/angular": "^7.7.4",
     "chart.js": "^4.4.0",
     "crypto-js": "^4.1.1",
     "primeicons": "^6.0.1",
-    "primeng": "^16.9.1",
+    "primeng": "^17.10.0",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.4.8",
     "zone.js": "~0.14.4"
@@ -30,6 +38,8 @@
     "@angular-devkit/build-angular": "^17.2.3",
     "@angular/cli": "^17.2.3",
     "@angular/compiler-cli": "^17.2.4",
+    "@capacitor/cli": "next",
+    "@ionic/angular-toolkit": "latest",
     "@types/crypto-js": "^4.1.2",
     "@types/jasmine": "~4.3.0",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
