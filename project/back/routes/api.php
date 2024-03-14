@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\SedeController;
 use App\Http\Controllers\RouteController;
+use App\Http\Controllers\SedeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,13 +25,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('profile', [AuthController::class, 'userProfile']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::resource('/sedes', SedeController::class);
-
+    Route::get('sedes_all', [SedeController::class, 'getAll'])->name('sedes.getAll');
 });
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 
 
 Route::resource('/route', RouteController::class);
