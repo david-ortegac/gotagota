@@ -5,6 +5,7 @@ import { Pageable } from 'src/app/utils/pageable';
 import { Sede } from 'src/app/models/Sede';
 import { decrypt } from 'src/app/utils/util-encrypt';
 import { environment } from 'src/environments/environment';
+import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 
 @Injectable({
   providedIn: 'root'
@@ -32,9 +33,9 @@ export class SedesService {
 
   }
 
-  getSedes(): Observable<Pageable<Sede[]>> {
+  getAllSedes(page: number): Observable<Pageable<Sede[]>> {
     this.validateAndDecryptToken();
-    return this.httpClient.get<Pageable<Sede[]>>(this.url + 'sedes', {
+    return this.httpClient.get<Pageable<Sede[]>>(this.url + 'sedes?page=' + page, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.tk}`
@@ -51,7 +52,18 @@ export class SedesService {
           'Authorization': `Bearer ${this.tk}`
         }
       }
-    )
+    );
   }
 
+  updateSede(sede: Sede): Observable<Sede> {
+    this.validateAndDecryptToken();
+    return this.httpClient.put<Sede>(this.url + 'sedes/' + sede.id, sede,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.tk}`
+      }
+
+    });
+  }
 }
