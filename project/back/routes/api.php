@@ -24,9 +24,14 @@ Route::post('register', [AuthController::class, 'register']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('profile', [AuthController::class, 'userProfile']);
     Route::post('logout', [AuthController::class, 'logout']);
+
     Route::resource('/sedes', SedeController::class);
     Route::get('sedes_all', [SedeController::class, 'getAll'])->name('sedes.getAll');
+
+    Route::resource('/routes', RouteController::class);
+    Route::get('routes_all', [RouteController::class, 'getAll'])->name('routes.getAll');
 });
+
 
 
 
@@ -36,5 +41,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
-Route::resource('/route', RouteController::class);
 Route::resource('/clients', ClientController::class);
