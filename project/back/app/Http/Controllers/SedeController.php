@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sede;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class SedeController
@@ -15,7 +16,7 @@ class SedeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index()
     {
@@ -28,18 +29,43 @@ class SedeController extends Controller
         }
 
         if ($sedes->count() > 0) {
-            return response()->json($sedes, 200);
+            return response()->json($sedes, Response::HTTP_OK);
         } else {
-            return response()->json($sedes, 404);
+            return response()->json($sedes, Response::HTTP_NOT_FOUND);
         }
+    }
 
+    public function getAll()
+    {
+        $sedes = Sede::all();
+
+        return response()->json(
+            $sedes,Response::HTTP_OK,
+        );
+
+    }
+
+    public function show($id)
+    {
+        $sede = Sede::findOrFail($id);
+        if (isset($sede)) {
+            return response()->json([
+                'status' => Response::HTTP_OK,
+                'data' => $sede
+            ]);
+        } else {
+            return response()->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'error' => 'No existen registros para retornar',
+            ]);
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -53,23 +79,27 @@ class SedeController extends Controller
         $sede->save();
 
         if ($validated) {
-            return response()->json($sede, 201);
+            return response()->json([
+                'status' => Response::HTTP_OK,
+                'data' => $sede
+            ]);
         } else {
-            return response()->json(error, 404);
+            return response()->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'error' => 'No existen registros para retornar',
+            ]);
         }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  Sede $sede
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Sede $sede
+     * @return JsonResponse
      */
     public function update(Request $request, Sede $sede)
     {
-
-        return $request;
         $validated = request()->validate(Sede::$rules);
 
         $sede = Sede::findOrFail($request->id);
@@ -79,23 +109,13 @@ class SedeController extends Controller
         $sede->update();
 
         if ($validated) {
-            return response()->json($sede, 201);
+            return response()->json([
+                'status' => Response::HTTP_OK,
+                'data' => $sede
+            ]);
         } else {
-            return response()->json(error, 404);
+            return response()->json("error", 404);
         }
 
-    }
-
-    /**
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function destroy($id)
-    {
-        $sede = Sede::find($id)->delete();
-
-        return redirect()->route('sedes.index')
-            ->with('success', 'Sede deleted successfully');
     }
 }
