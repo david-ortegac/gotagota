@@ -25,7 +25,6 @@ class SedeController extends Controller
         foreach ($sedes as $sede) {
             $sede->created_by = $sede->createdBy;
             $sede->modified_by = $sede->modifiedBy;
-
         }
 
         if ($sedes->count() > 0) {
@@ -35,9 +34,18 @@ class SedeController extends Controller
         }
     }
 
+    /*
+     * Obtiene la informacion de todas las rutas sin paginación
+     * No recibe parametros
+     * */
     public function getAll()
     {
         $sedes = Sede::all();
+
+        foreach ($sedes as $sede) {
+            $sede->created_by = $sede->createdBy;
+            $sede->modified_by = $sede->modifiedBy;
+        }
 
         return response()->json(
             $sedes,Response::HTTP_OK,
@@ -45,7 +53,7 @@ class SedeController extends Controller
 
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         $sede = Sede::findOrFail($id);
         if (isset($sede)) {
@@ -71,14 +79,13 @@ class SedeController extends Controller
     {
         $validated = request()->validate(Sede::$rules);
 
-        $sede = new Sede;
-        $sede->name = $request->name;
-        $sede->created_by = Auth()->User()->id;
-        $sede->modified_by = Auth()->User()->id;
-
-        $sede->save();
-
         if ($validated) {
+            $sede = new Sede;
+            $sede->name = $request->name;
+            $sede->created_by = Auth()->User()->id;
+            $sede->modified_by = Auth()->User()->id;
+
+            $sede->save();
             return response()->json([
                 'status' => Response::HTTP_OK,
                 'data' => $sede
@@ -86,7 +93,7 @@ class SedeController extends Controller
         } else {
             return response()->json([
                 'status' => Response::HTTP_BAD_REQUEST,
-                'error' => 'No existen registros para retornar',
+                'error' => 'Error al guardar',
             ]);
         }
     }
@@ -102,13 +109,13 @@ class SedeController extends Controller
     {
         $validated = request()->validate(Sede::$rules);
 
-        $sede = Sede::findOrFail($request->id);
-        $sede->name = $request->name;
-        $sede->modified_by = Auth()->User()->id;
-
-        $sede->update();
-
         if ($validated) {
+            $sede = Sede::findOrFail($request->id);
+            $sede->name = $request->name;
+            $sede->modified_by = Auth()->User()->id;
+
+            $sede->update();
+
             return response()->json([
                 'status' => Response::HTTP_OK,
                 'data' => $sede
