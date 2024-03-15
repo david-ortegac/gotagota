@@ -16,8 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property $updated_at
  *
  * @property Route[] $routes
- * @property User $user
- * @property User $user
+ * @property User $createdBy
+ * @property User $modifiedBy
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
@@ -30,6 +30,7 @@ class Sede extends Model
     ];
 
     protected $perPage = 20;
+
 
     /**
      * Attributes that should be mass-assignable.
@@ -56,7 +57,7 @@ class Sede extends Model
     public function modifiedBy()
     {
         return $this->hasOne('App\Models\User', 'id', 'modified_by')
-        ->select(array('name', 'email'));
+            ->select(array('name', 'email'));
     }
 
     /**
@@ -65,7 +66,7 @@ class Sede extends Model
     public function createdBy()
     {
         return $this->hasOne('App\Models\User', 'id', 'created_by')
-        ->select(array('name','email'));;
+            ->select(array('name', 'email'));;
     }
 
 }

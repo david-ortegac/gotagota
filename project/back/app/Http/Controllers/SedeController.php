@@ -57,6 +57,8 @@ class SedeController extends Controller
     {
         $sede = Sede::findOrFail($id);
         if (isset($sede)) {
+            $sede->created_by = $sede->createdBy;
+            $sede->modified_by = $sede->modifiedBy;
             return response()->json([
                 'status' => Response::HTTP_OK,
                 'data' => $sede
@@ -86,6 +88,10 @@ class SedeController extends Controller
             $sede->modified_by = Auth()->User()->id;
 
             $sede->save();
+
+            $sede->created_by = $sede->createdBy;
+            $sede->modified_by = $sede->modifiedBy;
+
             return response()->json([
                 'status' => Response::HTTP_OK,
                 'data' => $sede
@@ -115,6 +121,9 @@ class SedeController extends Controller
             $sede->modified_by = Auth()->User()->id;
 
             $sede->update();
+
+            $sede->created_by = $sede->createdBy;
+            $sede->modified_by = $sede->modifiedBy;
 
             return response()->json([
                 'status' => Response::HTTP_OK,
