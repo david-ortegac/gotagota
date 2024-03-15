@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sede;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class SedeController
@@ -15,7 +16,7 @@ class SedeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index()
     {
@@ -24,78 +25,113 @@ class SedeController extends Controller
         foreach ($sedes as $sede) {
             $sede->created_by = $sede->createdBy;
             $sede->modified_by = $sede->modifiedBy;
-
         }
 
         if ($sedes->count() > 0) {
-            return response()->json($sedes, 200);
+            return response()->json($sedes, Response::HTTP_OK);
         } else {
-            return response()->json($sedes, 404);
+            return response()->json($sedes, Response::HTTP_NOT_FOUND);
+        }
+    }
+
+    /*
+     * Obtiene la informacion de todas las rutas sin paginación
+     * No recibe parametros
+     * */
+    public function getAll()
+    {
+        $sedes = Sede::all();
+
+        foreach ($sedes as $sede) {
+            $sede->created_by = $sede->createdBy;
+            $sede->modified_by = $sede->modifiedBy;
         }
 
+        return response()->json(
+            $sedes,Response::HTTP_OK,
+        );
+
+    }
+
+    public function show(int $id)
+    {
+        $sede = Sede::findOrFail($id);
+        if (isset($sede)) {
+            $sede->created_by = $sede->createdBy;
+            $sede->modified_by = $sede->modifiedBy;
+            return response()->json([
+                'status' => Response::HTTP_OK,
+                'data' => $sede
+            ]);
+        } else {
+            return response()->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'error' => 'No existen registros para retornar',
+            ]);
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
         $validated = request()->validate(Sede::$rules);
 
-        $sede = new Sede;
-        $sede->name = $request->name;
-        $sede->created_by = Auth()->User()->id;
-        $sede->modified_by = Auth()->User()->id;
-
-        $sede->save();
-
         if ($validated) {
-            return response()->json($sede, 201);
+            $sede = new Sede;
+            $sede->name = $request->name;
+            $sede->created_by = Auth()->User()->id;
+            $sede->modified_by = Auth()->User()->id;
+
+            $sede->save();
+
+            $sede->created_by = $sede->createdBy;
+            $sede->modified_by = $sede->modifiedBy;
+
+            return response()->json([
+                'status' => Response::HTTP_OK,
+                'data' => $sede
+            ]);
         } else {
-            return response()->json(error, 404);
+            return response()->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'error' => 'Error al guardar',
+            ]);
         }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  Sede $sede
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Sede $sede
+     * @return JsonResponse
      */
     public function update(Request $request, Sede $sede)
     {
-
-        return $request;
         $validated = request()->validate(Sede::$rules);
 
-        $sede = Sede::findOrFail($request->id);
-        $sede->name = $request->name;
-        $sede->modified_by = Auth()->User()->id;
-
-        $sede->update();
-
         if ($validated) {
-            return response()->json($sede, 201);
+            $sede = Sede::findOrFail($request->id);
+            $sede->name = $request->name;
+            $sede->modified_by = Auth()->User()->id;
+
+            $sede->update();
+
+            $sede->created_by = $sede->createdBy;
+            $sede->modified_by = $sede->modifiedBy;
+
+            return response()->json([
+                'status' => Response::HTTP_OK,
+                'data' => $sede
+            ]);
         } else {
-            return response()->json(error, 404);
+            return response()->json("error", 404);
         }
 
-    }
-
-    /**
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function destroy($id)
-    {
-        $sede = Sede::find($id)->delete();
-
-        return redirect()->route('sedes.index')
-            ->with('success', 'Sede deleted successfully');
     }
 }

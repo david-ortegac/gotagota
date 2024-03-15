@@ -17,10 +17,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property $updated_at
  *
  * @property Client[] $clients
- * @property Employee[] $employees
  * @property Sede $sede
- * @property User $user
- * @property User $user
+ * @property User $createdBy
+ * @property User $modifiedBy
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
@@ -30,17 +29,17 @@ class Route extends Model
 
     static $rules = [
         'sede_id' => 'required',
-        'number' => 'required',
-        'created_by' => 'required',
-        'modified_by' => 'required',
+        'number' => 'required'
     ];
 
     protected $perPage = 20;
 
     protected $hidden = [
-        'sede_id',
         'created_by',
         'modified_by',
+        'updated_at',
+        'created_at',
+        'sede_id'
     ];
 
     /**
@@ -77,7 +76,7 @@ class Route extends Model
     public function sede()
     {
         return $this->hasOne('App\Models\Sede', 'id', 'sede_id')
-        ->select(array('name'));
+        ->select(array('id','name'));
     }
 
     /**

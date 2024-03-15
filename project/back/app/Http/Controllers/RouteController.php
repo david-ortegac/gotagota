@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Route;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class RouteController
@@ -14,106 +16,127 @@ class RouteController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index()
     {
         $routes = Route::paginate();
 
-        foreach ($routes as $route){
+        foreach ($routes as $route) {
             $route->sede_id = $route->sede->name;
             $route->created_by = $route->createdBy;
             $route->modified_by = $route->modifiedBy;
         }
 
         if ($routes->count() > 0) {
-            return response()->json($routes, 200);
+            return response()->json($routes, Response::HTTP_OK);
         } else {
-            return response()->json($routes, 404);
+            return response()->json($routes, Response::HTTP_NOT_FOUND);
         }
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    /*
+     * Obtiene la informacion de todas las rutas sin paginación
+     * No recibe parametros
+     * */
+    public function getAll(): JsonResponse
     {
-        $route = new Route();
-        return view('route.create', compact('route'));
+        $routes = Route::all();
+        foreach ($routes as $route) {
+            $route->created_by = $route->createdBy;
+            $route->modified_by = $route->modifiedBy;
+            $route->sede = $route->sede->name;
+        }
+        return response()->json(
+            $routes,Response::HTTP_OK,
+        );
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        request()->validate(Route::$rules);
+        $validated = request()->validate(Route::$rules);
 
-        $route = Route::create($request->all());
+        if ($validated) {
+            $route = new Route();
+            $route->sede_id = $request->sede_id;
+            $route->number = $request->number;
+            $route->created_by = Auth()->User()->id;
+            $route->modified_by = Auth()->User()->id;
 
-        return redirect()->route('routes.index')
-            ->with('success', 'Route created successfully.');
+            $route->save();
+
+            $route->sede = $route->sede->name;
+            return response()->json([
+                'status' => Response::HTTP_CREATED,
+                'data' => $route
+            ]);
+        } else {
+            return response()->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'error' => 'Error al guardar',
+            ]);
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
      */
-    public function show($id)
+    public function show(int $id): JsonResponse
     {
-        $route = Route::find($id);
+        $route = Route::findOrFail($id);
 
-        return view('route.show', compact('route'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $route = Route::find($id);
-
-        return view('route.edit', compact('route'));
+        if (isset($route)) {
+            $route->sede = $route->sede->name;
+            return response()->json([
+                'status' => Response::HTTP_OK,
+                'data' => $route
+            ]);
+        } else {
+            return response()->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'error' => 'No existen registros para retornar',
+            ]);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  Route $route
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Route $route
+     * @return JsonResponse
      */
-    public function update(Request $request, Route $route)
+    public function update(Request $request, Route $route): JsonResponse
     {
-        request()->validate(Route::$rules);
+        $validated = request()->validate(Route::$rules);
 
-        $route->update($request->all());
+        if ($validated) {
+            $route = Route::findOrFail($request->id);
+            $route->sede_id = $request->sede_id;
+            $route->number = $request->number;
+            $route->modified_by = Auth()->User()->id;
 
-        return redirect()->route('routes.index')
-            ->with('success', 'Route updated successfully');
+            $route->update();
+
+            $route->sede = $route->sede->name;
+            return response()->json([
+                'status' => Response::HTTP_OK,
+                'data' => $route
+            ]);
+        } else {
+            return response()->json("error", 404);
+        }
     }
 
-    /**
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function destroy($id)
-    {
-        $route = Route::find($id)->delete();
-
-        return redirect()->route('routes.index')
-            ->with('success', 'Route deleted successfully');
-    }
 }
