@@ -22,14 +22,18 @@ jobs:
       working-directory: ./project/back
       run: composer install --prefer-dist
     - name: Copy .env
+      working-directory: ./project/back
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Generate key
+      working-directory: ./project/back
       run: php artisan key:generate
     - name: Directory Permissions
+      working-directory: ./project/back
       run: chmod -R 777 storage bootstrap/cache
     - name: 📂 Sync files to sintra
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
+        working-directory: ./project/back
         server: ftp.sintraunipricol.com.co
         username: gotagota@gotagota.sintraunipricol.com.co
         password: ${{ secrets.ftp_password }}
