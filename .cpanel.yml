@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/gotagota.sintraunipricol.com.co 
+    - /project/back -R . $DEPLOYPATH
