@@ -8,19 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(Request $request): JsonResponse
     {
-        //validación de los datos
-        $rules = [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed|min:8',
-        ];
-        $validator = \Validator::make($request->input(), $rules);
+        $validator = \Validator::make($request->input(), User::$rules);
 
         if ($validator->fails()) {
             return response()->json([
@@ -35,11 +30,8 @@ class AuthController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        $token = $user->createToken('token')->plainTextToken;
         return response()->json([
             'Data' => $user,
-            'access_token' => $token,
-            'token_type' => 'Bearer',
             'status' => Response::HTTP_CREATED,
         ]);
     }
@@ -85,11 +77,4 @@ class AuthController extends Controller
         return response(["message" => "Cierre de sesión OK"], Response::HTTP_OK)->withCookie($cookie);
     }
 
-    public function allUsers()
-    {
-        $users = User::all();
-        return response()->json([
-            "users" => $users,
-        ]);
-    }
 }
