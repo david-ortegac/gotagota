@@ -18,9 +18,8 @@ jobs:
     - uses: actions/checkout@v4
     - name: mostrar directorios y archivos
       run: ls
-    - name: abrir carpeta back
-      run: cd project
-      run: cd back
+    - name: abrir carpeta project
+      run: cd ./project/back
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
