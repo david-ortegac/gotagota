@@ -30,10 +30,9 @@ jobs:
     - name: Directory Permissions
       working-directory: ./project/back
       run: chmod -R 777 storage bootstrap/cache
-    - name: 📂 Sync files to sintra
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+    - name: Upload ftp
+      uses: genietim/ftp-action@releases/v4
       with:
-        working-directory: ./project/back
-        server: ftp.sintraunipricol.com.co
-        username: gotagota@gotagota.sintraunipricol.com.co
-        password: ${{ secrets.ftp_password }}
+        host: ftp.sintraunipricol.com.co
+        user: gotagota@gotagota.sintraunipricol.com.co
+        password: sintrau1_gotagota
