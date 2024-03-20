@@ -36,3 +36,4 @@ jobs:
         ftpHostname: ftp.sintraunipricol.com.co
         ftpUsername: gotagota@gotagota.sintraunipricol.com.co
         ftpPassword: sintrau1_gotagota
+        dryRun: true
