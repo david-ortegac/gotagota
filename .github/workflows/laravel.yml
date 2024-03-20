@@ -35,6 +35,6 @@ jobs:
     - name: Upload ftp
       uses: dennisameling/ftp-upload-action@v1
       with:
-        server: ftp.sintraunipricol.com.co
+        server: 147.135.84.19
         username: gotagota@gotagota.sintraunipricol.com.co
         password: sintrau1_gotagota
