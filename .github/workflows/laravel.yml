@@ -30,6 +30,8 @@ jobs:
     - name: Directory Permissions
       working-directory: ./project/back
       run: chmod -R 777 storage bootstrap/cache
+    - name: checkout
+      uses: actions/checkout@v2
     - name: Upload ftp
       uses: genietim/ftp-action@releases/v4
       with:
