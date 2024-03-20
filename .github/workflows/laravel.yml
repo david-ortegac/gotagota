@@ -19,7 +19,8 @@ jobs:
     - name: mostrar directorios y archivos
       run: ls
     - name: abrir carpeta project
-      run: cd ./project/back
+      working-directory: ./project/back
+      run: composer install --prefer-dist
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
