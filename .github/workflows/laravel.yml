@@ -33,8 +33,8 @@ jobs:
     - name: checkout
       uses: actions/checkout@v2
     - name: Upload ftp
-      uses: genietim/ftp-action@releases/v4
+      uses: dennisameling/ftp-upload-action@v1
       with:
-        host: ftp.sintraunipricol.com.co
-        user: gotagota@gotagota.sintraunipricol.com.co
+        server: ftp.sintraunipricol.com.co
+        username: gotagota@gotagota.sintraunipricol.com.co
         password: sintrau1_gotagota
