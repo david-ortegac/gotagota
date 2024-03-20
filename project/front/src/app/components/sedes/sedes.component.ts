@@ -1,7 +1,9 @@
 import { Sede } from './../../models/Sede';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { SedesService } from 'src/app/services/sedes/sedes.service';
+import { decrypt, encrypt } from 'src/app/utils/util-encrypt';
 
 @Component({
   selector: 'app-sedes',
@@ -12,73 +14,94 @@ export class SedesComponent {
   sedes: Sede[] = [];
   openSaveUpdate: boolean = false;
   form: FormGroup;
-  first: number=0;
-  row: number =20;
+  first: number = 0;
+  row: number = 20;
   last: number = 0;
-  totalRecords: number =0;
+  totalRecords: number = 0;
   loading: boolean = false;
-  
+  updateButtom: boolean = false;
+  letUpdateSede: Sede = {
+
+  }
+
   constructor(
     private sedesService: SedesService,
   ) {
+    this.loading = true;
     this.getAllSedes(0);
     this.form = new FormGroup({
       name: new FormControl('', [Validators.minLength(3), Validators.required]),
     });
   }
 
+
   getAllSedes(page: number) {
-      this.loading = true;
-      this.sedesService.getAllSedes(page || 0).subscribe(res => {
+    this.loading = true;
+    this.sedesService.getAllSedes(page || 0).subscribe(res => {
       this.loading = false;
-      console.log(res);
-      this.sedes = res.data;
+      res.data.forEach(el =>{
+        const sedeDecrypt = {
+          name: decrypt(el.name!)
+        }
+        console.log(el)
+        this.sedes.push(sedeDecrypt)
+      });
       this.first = res.from;
       this.last = res.last_page;
       this.totalRecords = res.total
     });
+    this.loading = false;
   }
+
 
   createNewSede() {
     const sede: Sede = {
-      name: this.form.get('name')?.value 
+      name:encrypt( this.form.get('name')?.value)
     }
+
     
     this.sedesService.createSede(sede).subscribe(res => {
+      this.loading = true;
       console.log(res.data);
       this.getAllSedes(0);
-    }, error => {
-      console.log(error);
+      this.openSaveUpdate = false;
+      this.form.reset();
     })
+    this.loading = false;
+
+  }
+
+  update() {
+    this.letUpdateSede.name = encrypt(this.form.get('name')?.value);
+
+    this.sedesService.updateSede(this.letUpdateSede).subscribe(res => {
+      this.loading = true;
+      this.getAllSedes(0);
+      this.updateButtom = false;
+      this.openSaveUpdate = false;
+      this.form.reset();
+    });
+    this.loading = false;
   }
 
   updateSede(sede: Sede) {
     this.openSaveUpdate = true;
+    this.updateButtom = true;
     this.form.get('name')?.setValue(sede.name);
-    
-    const updateSede: Sede = {
-      id: sede.id,
-      name: this.form.get('name')?.value 
-    }
+    this.updateButtom = true;
+    this.letUpdateSede = sede;
+  }
 
-    this.sedesService.updateSede(updateSede).subscribe(res => {
-      console.log(res);
-      this.getAllSedes(0);
-    }, error => {
-      console.log(error);
-    })
-    }
-  
 
   openCreateSede() {
-    this.openSaveUpdate =true
+    this.openSaveUpdate = true
   }
 
   closeCreateSede() {
     this.openSaveUpdate = false;
   }
 
-  onPageChange($event: any){
+  onPageChange($event: any) {
     console.log($event.page + 1);
     let page = $event.page + 1;
     this.getAllSedes(page)

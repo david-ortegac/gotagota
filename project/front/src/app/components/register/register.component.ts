@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Register } from 'src/app/models/Register';
+import { RegisterService } from 'src/app/services/register/register.service';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +12,7 @@ export class RegisterComponent {
 
   registerForm: FormGroup;
 
-  constructor() {
+  constructor(private registerService: RegisterService) {
     this.registerForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(3)]),
       email: new FormControl('', [Validators.email, Validators.required]),
@@ -20,6 +22,20 @@ export class RegisterComponent {
   }
 
   async register() {
+    const register: Register={
+      name: this.registerForm.get('name')?.value,
+      email: this.registerForm.get('email')?.value,
+      passowrd: this.registerForm.get('password')?.value,
+      password_confirmation: this.registerForm.get('password_confirmation')?.value,
+    }
+
+    this.registerService.register(register).subscribe(res=>{
+
+      
+    }, 
+      error=>{
+
+    })
     
   }
 

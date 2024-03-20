@@ -56,8 +56,9 @@ export class SedesService {
   }
 
   updateSede(sede: Sede): Observable<Sede> {
+    console.log(sede)
     this.validateAndDecryptToken();
-    return this.httpClient.put<Sede>(this.url + 'sedes/' + sede.id, sede,
+    return this.httpClient.patch<Sede>(this.url + 'sedes/' + sede.id, sede,
     {
       headers: {
         'Content-Type': 'application/json',

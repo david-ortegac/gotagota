@@ -21,6 +21,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { PaginatorModule } from 'primeng/paginator';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 import { SedesComponent } from './components/sedes/sedes.component';
@@ -30,6 +31,8 @@ import { ClientsComponent } from './components/clients/clients.component';
 import { IonicModule } from '@ionic/angular';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DropdownModule } from 'primeng/dropdown';
+
 
 @NgModule({
   declarations: [
@@ -54,8 +57,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
     HttpClientModule,
     InputTextModule,
     PasswordModule,
+    DropdownModule,
     ReactiveFormsModule,PaginatorModule,
     NgxPaginationModule,
+    ProgressSpinnerModule,
     ButtonModule,
     IonicModule.forRoot({}),
     ServiceWorkerModule.register('ngsw-worker.js', {
