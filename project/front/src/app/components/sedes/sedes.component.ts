@@ -37,11 +37,16 @@ export class SedesComponent {
 
   getAllSedes(page: number) {
     this.loading = true;
+    this.sedes = [];
     this.sedesService.getAllSedes(page || 0).subscribe(res => {
-      this.loading = false;
       res.data.forEach(el =>{
         const sedeDecrypt = {
-          name: decrypt(el.name!)
+          id: el.id,
+          name: decrypt(el.name!),
+          created_at: el.created_at,
+          updated_at: el.updated_at,
+          created_by: el.created_by,
+          modified_by: el.modified_by
         }
         console.log(el)
         this.sedes.push(sedeDecrypt)
@@ -59,7 +64,7 @@ export class SedesComponent {
       name:encrypt( this.form.get('name')?.value)
     }
 
-    
+
     this.sedesService.createSede(sede).subscribe(res => {
       this.loading = true;
       console.log(res.data);

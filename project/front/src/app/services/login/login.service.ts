@@ -28,7 +28,6 @@ export class LoginService {
   }
 
   login(login: Login): Observable<User> {
-    console.log(this.tk);
     return this.httpClient.post<User>(this.url + 'login', login);
   }
 
