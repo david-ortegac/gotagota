@@ -28,11 +28,7 @@ class RouteController extends Controller
             $route->modified_by = $route->modifiedBy;
         }
 
-        if ($routes->count() > 0) {
-            return response()->json($routes, Response::HTTP_OK);
-        } else {
-            return response()->json($routes, Response::HTTP_NOT_FOUND);
-        }
+        return response()->json($routes, Response::HTTP_OK);
 
     }
 
@@ -49,7 +45,7 @@ class RouteController extends Controller
             $route->sede = $route->sede->name;
         }
         return response()->json(
-            $routes,Response::HTTP_OK,
+            $routes, Response::HTTP_OK,
         );
 
     }
@@ -62,6 +58,7 @@ class RouteController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        return $request;
         $validated = request()->validate(Route::$rules);
 
         if ($validated) {
@@ -123,8 +120,8 @@ class RouteController extends Controller
 
         if ($validated) {
             $route = Route::findOrFail($request->id);
-            $route->sede_id = $request->sede_id;
-            $route->number = $request->number;
+            $route->sede_id = null ? $route->sede_id : $request->sede_id;
+            $route->number = null ? $route->number : $request->number;
             $route->modified_by = Auth()->User()->id;
 
             $route->update();

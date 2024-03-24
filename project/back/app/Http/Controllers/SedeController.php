@@ -27,11 +27,8 @@ class SedeController extends Controller
             $sede->modified_by = $sede->modifiedBy;
         }
 
-        if ($sedes->count() > 0) {
-            return response()->json($sedes, Response::HTTP_OK);
-        } else {
-            return response()->json($sedes, Response::HTTP_NOT_FOUND);
-        }
+        return response()->json($sedes, Response::HTTP_OK);
+
     }
 
     /*
@@ -48,7 +45,7 @@ class SedeController extends Controller
         }
 
         return response()->json(
-            $sedes,Response::HTTP_OK,
+            $sedes, Response::HTTP_OK,
         );
 
     }

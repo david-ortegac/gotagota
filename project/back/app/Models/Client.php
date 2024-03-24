@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Class Client
@@ -27,8 +29,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property Loan[] $loans
  * @property Route $route
- * @property User $user
- * @property User $user
+ * @property User $createdBy
+ * @property User $modifiedBy
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
@@ -36,7 +38,7 @@ class Client extends Model
 {
     use HasFactory;
 
-    static $rules = [
+    static array $rules = [
         'route_id' => 'required',
         'name' => 'required',
         'last_name' => 'required',
@@ -44,11 +46,7 @@ class Client extends Model
         'neighborhood' => 'required',
         'address' => 'required',
         'city' => 'required',
-        'profession' => 'required',
-        'notes' => 'required',
-        'type' => 'required',
-        'created_by' => 'required',
-        'modified_by' => 'required',
+        'profession' => 'required'
     ];
 
     protected $perPage = 20;
@@ -68,7 +66,6 @@ class Client extends Model
         'route_id',
         'name',
         'last_name',
-        'email',
         'phone',
         'neighborhood',
         'address',
@@ -81,35 +78,35 @@ class Client extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function loans()
+    public function loans(): HasMany
     {
         return $this->hasMany('App\Models\Loan', 'client_id', 'id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function route()
     {
         return $this->hasOne('App\Models\Route', 'id', 'route_id')
-        ->select(array('number'));
+        ->select(array('id','number','sede_id'));
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function createdBy()
+    public function createdBy(): HasOne
     {
         return $this->hasOne('App\Models\User', 'id', 'created_by')
         ->select(array('name','email'));
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function modifiedBy()
+    public function modifiedBy(): HasOne
     {
         return $this->hasOne('App\Models\User', 'id', 'modified_by')
         ->select(array('name','email'));

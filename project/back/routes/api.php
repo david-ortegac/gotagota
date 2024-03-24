@@ -30,6 +30,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::resource('/routes', RouteController::class);
     Route::get('routes_all', [RouteController::class, 'getAll'])->name('routes.getAll');
+
+    Route::resource('/clients', ClientController::class);
+    Route::get('clients_all', [ClientController::class, 'getAll'])->name('clients.getAll');
 });
 
 
@@ -41,4 +44,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
-Route::resource('/clients', ClientController::class);
+

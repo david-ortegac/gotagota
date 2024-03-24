@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreClientRequest;
+use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ClientController
@@ -14,93 +18,145 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index()
     {
         $clients = Client::paginate();
 
-        foreach ($clients as $client){
+        foreach ($clients as $client) {
             $client->created_by = $client->createdBy;
             $client->modified_by = $client->modifiedBy;
             $client->route = $client->route->number;
-        } 
-        if($clients->count()>0){
-            return response()->json($clients, 200);
-        }else{
-            return response()->json($clients, 404);
         }
-        
+
+        return response()->json($clients, Response::HTTP_OK);
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function getAll(): JsonResponse
     {
-        $client = new Client();
-        return view('client.create', compact('client'));
+        $clients = Client::all();
+
+        foreach ($clients as $client) {
+            $client->created_by = $client->createdBy;
+            $client->modified_by = $client->modifiedBy;
+            $client->route = $client->route->number;
+        }
+
+        return response()->json($clients, Response::HTTP_OK);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(StoreClientRequest $request): JsonResponse
     {
-        request()->validate(Client::$rules);
+        $client = new Client();
+        $client->route_id = $request->route_id;
+        $client->name = $request->name;
+        $client->last_name = $request->last_name;
+        $client->phone = $request->phone;
+        $client->neighborhood = $request->neighborhood;
+        $client->address = $request->address;
+        $client->city = $request->city;
+        $client->profession = $request->profession;
+        $client->notes = $request->notes;
+        $client->type = $request->type;
+        $client->created_by = Auth()->User()->id;
+        $client->modified_by = Auth()->User()->id;
 
-        $client = Client::create($request->all());
+        $client->save();
 
-        return redirect()->route('clients.index')
-            ->with('success', 'Client created successfully.');
+        $client->route = $client->route;
+        $client->name = $client->name;
+        $client->last_name = $client->last_name;
+        $client->phone = $client->phone;
+        $client->neighborhood = $client->neighborhood;
+        $client->address = $client->address;
+        $client->city = $client->city;
+        $client->profession = $client->profession;
+        $client->notes = $client->notes;
+        $client->type = $client->type;
+        $client->created_by = $client->createdBy;
+        $client->modified_by = $client->modifiedBy;
+
+        return response()->json([
+            'status' => "Cliente creado con exito",
+            'data' => $client
+        ],Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
      */
     public function show($id)
     {
         $client = Client::find($id);
 
-        return view('client.show', compact('client'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $client = Client::find($id);
-
-        return view('client.edit', compact('client'));
+        if (isset($client)) {
+            $client->created_by = $client->createdBy;
+            $client->modified_by = $client->modifiedBy;
+            $client->route = $client->route;
+            return response()->json([
+                'status' => Response::HTTP_OK,
+                'data' => $client
+            ]);
+        } else {
+            return response()->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'error' => 'No existen registros para retornar',
+            ]);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  Client $client
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Client $client
+     * @return JsonResponse
      */
-    public function update(Request $request, Client $client)
+    public function update(UpdateClientRequest $request, Client $client)
     {
-        request()->validate(Client::$rules);
+        $client->route_id = $request->route_id;
+        $client->name = $request->name;
+        $client->last_name = $request->last_name;
+        $client->phone = $request->phone;
+        $client->neighborhood = $request->neighborhood;
+        $client->address = $request->address;
+        $client->city = $request->city;
+        $client->profession = $request->profession;
+        $client->notes = $request->notes;
+        $client->type = $request->type;
+        $client->modified_by = Auth()->User()->id;
 
-        $client->update($request->all());
+        $client->save();
 
-        return redirect()->route('clients.index')
-            ->with('success', 'Client updated successfully');
+        $client->route = $client->route;
+        $client->name = $client->name;
+        $client->last_name = $client->last_name;
+        $client->phone = $client->phone;
+        $client->neighborhood = $client->neighborhood;
+        $client->address = $client->address;
+        $client->city = $client->city;
+        $client->profession = $client->profession;
+        $client->notes = $client->notes;
+        $client->type = $client->type;
+        $client->created_by = $client->createdBy;
+        $client->modified_by = $client->modifiedBy;
+
+        return response()->json([
+            'status' => "Cliente actualizado con exito",
+            'data' => $client,
+        ], Response::HTTP_OK);
+
     }
 
     /**
