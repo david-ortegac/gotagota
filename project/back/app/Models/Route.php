@@ -39,7 +39,6 @@ class Route extends Model
         'modified_by',
         'updated_at',
         'created_at',
-        'sede_id'
     ];
 
     /**
