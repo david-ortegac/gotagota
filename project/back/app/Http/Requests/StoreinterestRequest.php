@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class StoreinterestRequest extends FormRequest
 {
@@ -11,7 +15,7 @@ class StoreinterestRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -23,6 +27,21 @@ class StoreinterestRequest extends FormRequest
     {
         return [
             //
+        ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'status'   => "Error en datos requeridos",
+            'data'      => $validator->errors()
+        ], Response::HTTP_BAD_REQUEST));
+    }
+
+    public function messages(): array
+    {
+        return [
+
         ];
     }
 }
