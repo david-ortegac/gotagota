@@ -2,7 +2,12 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class StoreRouteRequest extends FormRequest
 {
@@ -11,18 +16,35 @@ class StoreRouteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'sede_id' => 'required',
+            'number' => 'required'
+        ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'status'   => "Error en datos requeridos",
+            'data'      => $validator->errors()
+        ], Response::HTTP_BAD_REQUEST));
+    }
+
+    public function messages(): array
+    {
+        return [
+            'route_id.required'=>"La ruta es requerida",
+            'number.required'=>"El nombre o numero de la ruta es requerido",
         ];
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRouteRequest;
+use App\Http\Requests\UpdateRouteRequest;
 use App\Models\Route;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,11 +24,12 @@ class RouteController extends Controller
     {
         $routes = Route::paginate();
 
-        foreach ($routes as $route) {
-            $route->sede_id = $route->sede->name;
-            $route->created_by = $route->createdBy;
-            $route->modified_by = $route->modifiedBy;
-        }
+    foreach ($routes as $route) {
+        $route->sede = $route->sede;
+        unset($route->sede_id);
+        $route->created_by = $route->createdBy;
+        $route->modified_by = $route->modifiedBy;
+    }
 
         return response()->json($routes, Response::HTTP_OK);
 
@@ -42,7 +45,8 @@ class RouteController extends Controller
         foreach ($routes as $route) {
             $route->created_by = $route->createdBy;
             $route->modified_by = $route->modifiedBy;
-            $route->sede = $route->sede->name;
+            $route->sede = $route->sede;
+            unset($route->sede_id);
         }
         return response()->json(
             $routes, Response::HTTP_OK,
@@ -56,31 +60,27 @@ class RouteController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreRouteRequest $request): JsonResponse
     {
-        return $request;
-        $validated = request()->validate(Route::$rules);
+        $route = new Route();
+        $route->sede_id = $request->sede_id;
+        $route->number = $request->number;
+        $route->created_by = Auth()->User()->id;
+        $route->modified_by = Auth()->User()->id;
 
-        if ($validated) {
-            $route = new Route();
-            $route->sede_id = $request->sede_id;
-            $route->number = $request->number;
-            $route->created_by = Auth()->User()->id;
-            $route->modified_by = Auth()->User()->id;
+        $route->save();
 
-            $route->save();
+        $route->sede_id = $route->sede;
+        $route->number = $route->number;
+        $route->created_by = $route->createdBy;
+        $route->modified_by = $route->modifiedBy;
 
-            $route->sede = $route->sede->name;
-            return response()->json([
-                'status' => Response::HTTP_CREATED,
-                'data' => $route
-            ]);
-        } else {
-            return response()->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'error' => 'Error al guardar',
-            ]);
-        }
+        $route->sede = $route->sede->name;
+        return response()->json([
+            'status' => "Sede guardada exitosamente",
+            'data' => $route
+        ], Response::HTTP_CREATED);
+
     }
 
     /**
@@ -94,7 +94,8 @@ class RouteController extends Controller
         $route = Route::findOrFail($id);
 
         if (isset($route)) {
-            $route->sede = $route->sede->name;
+            $route->sede = $route->sede;
+            unset($route->sede_id);
             return response()->json([
                 'status' => Response::HTTP_OK,
                 'data' => $route
@@ -114,26 +115,21 @@ class RouteController extends Controller
      * @param Route $route
      * @return JsonResponse
      */
-    public function update(Request $request, Route $route): JsonResponse
+    public function update(UpdateRouteRequest $request, Route $route): JsonResponse
     {
-        $validated = request()->validate(Route::$rules);
+        $route->sede_id = $request->sede_id;
+        $route->number = $request->number;
+        $route->modified_by = Auth()->User()->id;
 
-        if ($validated) {
-            $route = Route::findOrFail($request->id);
-            $route->sede_id = null ? $route->sede_id : $request->sede_id;
-            $route->number = null ? $route->number : $request->number;
-            $route->modified_by = Auth()->User()->id;
+        $route->update();
 
-            $route->update();
+        $route->sede = $route->sede;
 
-            $route->sede = $route->sede->name;
-            return response()->json([
-                'status' => Response::HTTP_OK,
-                'data' => $route
-            ]);
-        } else {
-            return response()->json("error", 404);
-        }
+        return response()->json([
+            'status' => "Ruta actualizada exitosamente",
+            'data' => $route
+        ], Response::HTTP_OK);
+
     }
 
 }

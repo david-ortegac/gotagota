@@ -25,12 +25,7 @@ class Sede extends Model
 {
     use HasFactory;
 
-    static $rules = [
-        'name' => 'required',
-    ];
-
     protected $perPage = 20;
-
 
     /**
      * Attributes that should be mass-assignable.
@@ -38,6 +33,7 @@ class Sede extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'name',
         'created_by',
         'modified_by',
@@ -48,7 +44,8 @@ class Sede extends Model
      */
     public function routes()
     {
-        return $this->hasMany('App\Models\Route', 'sede_id', 'id');
+        return $this->hasMany('App\Models\Route', 'sede_id', 'id')
+            ->select(array('id', 'name'));
     }
 
     /**
@@ -66,7 +63,7 @@ class Sede extends Model
     public function createdBy()
     {
         return $this->hasOne('App\Models\User', 'id', 'created_by')
-            ->select(array('name', 'email'));;
+            ->select(array('name', 'email'));
     }
 
 }

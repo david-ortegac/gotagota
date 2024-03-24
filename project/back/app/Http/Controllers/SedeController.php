@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSedeRequest;
+use App\Http\Requests\UpdateSedeRequest;
 use App\Models\Sede;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -74,31 +76,23 @@ class SedeController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(StoreSedeRequest $request)
     {
-        $validated = request()->validate(Sede::$rules);
+        $sede = new Sede;
+        $sede->name = $request->name;
+        $sede->created_by = Auth()->User()->id;
+        $sede->modified_by = Auth()->User()->id;
 
-        if ($validated) {
-            $sede = new Sede;
-            $sede->name = $request->name;
-            $sede->created_by = Auth()->User()->id;
-            $sede->modified_by = Auth()->User()->id;
+        $sede->save();
 
-            $sede->save();
+        $sede->created_by = $sede->createdBy;
+        $sede->modified_by = $sede->modifiedBy;
 
-            $sede->created_by = $sede->createdBy;
-            $sede->modified_by = $sede->modifiedBy;
+        return response()->json([
+            'status' => "Se ha creado la sede de exitosamente",
+            'data' => $sede
+        ], Response::HTTP_OK);
 
-            return response()->json([
-                'status' => Response::HTTP_OK,
-                'data' => $sede
-            ]);
-        } else {
-            return response()->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'error' => 'Error al guardar',
-            ]);
-        }
     }
 
     /**
@@ -108,27 +102,19 @@ class SedeController extends Controller
      * @param Sede $sede
      * @return JsonResponse
      */
-    public function update(Request $request, Sede $sede)
+    public function update(UpdateSedeRequest $request, Sede $sede)
     {
-        $validated = request()->validate(Sede::$rules);
+        $sede->name = $request->name;
+        $sede->modified_by = Auth()->User()->id;
 
-        if ($validated) {
-            $sede = Sede::findOrFail($request->id);
-            $sede->name = $request->name;
-            $sede->modified_by = Auth()->User()->id;
+        $sede->update();
 
-            $sede->update();
+        $sede->created_by = $sede->createdBy;
+        $sede->modified_by = $sede->modifiedBy;
 
-            $sede->created_by = $sede->createdBy;
-            $sede->modified_by = $sede->modifiedBy;
-
-            return response()->json([
-                'status' => Response::HTTP_OK,
-                'data' => $sede
-            ]);
-        } else {
-            return response()->json("error", 404);
-        }
-
+        return response()->json([
+            'status' => "Se ha actualizado la sede exitosamente",
+            'data' => $sede
+        ], Response::HTTP_OK);
     }
 }
