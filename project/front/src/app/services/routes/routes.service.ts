@@ -14,13 +14,19 @@ export class RoutesService {
   url: string = "";
   tk = "";
 
+  
   validateAndDecryptToken() {
     try {
       this.tk = decrypt(sessionStorage.getItem('tk')!);
     } catch (error) {
-      sessionStorage.removeItem('tk')
+      console.log(error);
     }
   }
+
+  headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${this.tk}`
+  })
 
   constructor(private httpClient: HttpClient) {
     this.url = environment.apiUrl;
@@ -37,9 +43,14 @@ export class RoutesService {
     });
   }
 
-  createRoute(route: Route): Observable<Pageable<Route>> {
+  createRoute(route: Route): Observable<Route> {
     this.validateAndDecryptToken();
-    return this.httpClient.post<Pageable<Route>>(this.url + 'routes', route,
+    const saveRoute={
+      number: route.number,
+      sede_id: route.sede?.id
+    }
+    console.log(saveRoute)
+    return this.httpClient.post<Route>(this.url + 'routes', saveRoute,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -51,8 +62,13 @@ export class RoutesService {
 
   updateRoute(route: Route): Observable<Route> {
     console.log(route)
+    const saveRoute={
+      id: route.id,
+      number: route.number,
+      sede_id: route.sede?.id
+    }
     this.validateAndDecryptToken();
-    return this.httpClient.patch<Route>(this.url + 'routes/' + route.id, route,
+    return this.httpClient.patch<Route>(this.url + 'routes/' + saveRoute.id, saveRoute,
       {
         headers: {
           'Content-Type': 'application/json',

@@ -4,7 +4,7 @@
 
             <div class="card">
                 <div class="card-body" style="border-color: black; border: 15px;">
-                    <h5 class="card-title">Routes</h5>
+                    <h5 class="card-title">Rutas</h5>
 
                     <div class="mb-3" *ngIf="!openSaveUpdate">
                         <button (click)="openCreateRoute()" class="btn btn-success">Crear Ruta</button>
@@ -22,10 +22,13 @@
                                 </div>
 
                                 <form [formGroup]="form" class="row g-3 needs-validation">
-                                    <div class="col-12">
+                                    <div class="col-3">
+                                        <p-dropdown formControlName="sede" [(ngModel)]="selectedSede" [options]="sedes" optionLabel="name" [showClear]="true" placeholder="Seleccione una sede"></p-dropdown>
+                                    </div>
+                                    <div class="col-9">
                                         <label class="form-label">Digite el nombre de la ruta</label>
-                                        <input formControlName="name" type="text" name="name" class="form-control"
-                                            id="yourName" required>
+                                        <input formControlName="number" type="text" name="number" class="form-control"
+                                            id="yourId" required>
                                         <div class="invalid-feedback">Por favor digite el nombre</div>
                                     </div>
 
@@ -53,7 +56,7 @@
                             <tr>
                                 <th scope="col">Id</th>
                                 <th scope="col">Sede</th>
-                                <th scope="col"># Ruta</th>
+                                <th scope="col">Nombre Ruta</th>
                                 <th scope="col">Creado por</th>
                                 <th scope="col">Fecha creación</th>
                                 <th scope="col">Actualizado por</th>
@@ -66,8 +69,9 @@
                         <ng-template pTemplate="body" let-route> 
                             <tr >
                                 <td>{{ route.id }}</td>
-                                <td>{{ route.created_by.name }}</td>
+                                <td>{{ route.sede.name }}</td>
                                 <td>{{ route.number }}</td>
+                                <td>{{ route.created_by.name }}</td>
                                 <td>{{ route.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
                                 <td>{{ route.modified_by.name }}</td>
                                 <td>{{ route.updated_at | date:'dd/MM/yyyy HH:mm' }}</td>

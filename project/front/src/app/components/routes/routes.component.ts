@@ -3,6 +3,8 @@ import { Route } from './../../models/Route';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RoutesService } from 'src/app/services/routes/routes.service';
 import { decrypt, encrypt } from 'src/app/utils/util-encrypt';
+import { SedesService } from 'src/app/services/sedes/sedes.service';
+import { Sede } from 'src/app/models/Sede';
 
 @Component({
   selector: 'app-routes',
@@ -12,6 +14,7 @@ import { decrypt, encrypt } from 'src/app/utils/util-encrypt';
 export class RoutesComponent {
 
   routes: Route[] = [];
+  sedes: Sede[]=[];
   openSaveUpdate: boolean = false;
   form: FormGroup;
   first: number = 0;
@@ -21,17 +24,33 @@ export class RoutesComponent {
   loading: boolean = false;
   updateButtom: boolean = false;
   letUpdateRoute: Route = {
-
   }
+  selectedSede: Route={}
 
   constructor(
-    private routesService: RoutesService,
+    private readonly routesService: RoutesService,
+    private readonly sedesService: SedesService,
   ) {
     this.loading = true;
+    this.getAllSedes();
     this.getAllRoutes(0);
     this.form = new FormGroup({
-      name: new FormControl('', [Validators.minLength(3), Validators.required]),
+      sede: new FormControl(''),
+      number: new FormControl('', [Validators.minLength(3), Validators.required]),
     });
+  }
+
+  getAllSedes(){
+    this.sedesService.getAllSedesWithoutPaginated().subscribe(res=>{
+      res.forEach(el=>{
+        const sedeDecrypt={
+          id: el.id,
+          name: decrypt(el.name!)
+        }
+        this.sedes.push(sedeDecrypt);
+      });
+    });
+    console.log(this.sedes)
   }
 
   getAllRoutes(page: number) {
@@ -41,13 +60,15 @@ export class RoutesComponent {
       res.data.forEach(el => {
         const routeDecrypt = {
           id: el.id,
-          sede_id: el.sede_id,
+          sede:{
+            id:el.sede?.id,
+            name:decrypt(el.sede?.name!)
+          },
           number: decrypt(el.number!),
           created_at: el.created_at,
           updated_at: el.updated_at,
           created_by: el.created_by,
           modified_by: el.modified_by
-
         }
         console.log(el)
         this.routes.push(routeDecrypt)
@@ -61,13 +82,11 @@ export class RoutesComponent {
 
   createNewRoute() {
     const route: Route = {
+      sede: this.form.get('sede')?.value,
       number: encrypt(this.form.get('number')?.value)
     }
-
-
-    this.routesService.createRoute(route).subscribe(res => {
+    this.routesService.createRoute(route).subscribe(() => {
       this.loading = true;
-      console.log(res.data);
       this.getAllRoutes(0);
       this.openSaveUpdate = false;
       this.form.reset();
@@ -78,6 +97,7 @@ export class RoutesComponent {
 
   update() {
     this.letUpdateRoute.number = encrypt(this.form.get('number')?.value);
+    this.letUpdateRoute.sede = this.form.get('sede')?.value
 
     this.routesService.updateRoute(this.letUpdateRoute).subscribe(res => {
       this.loading = true;
@@ -93,6 +113,7 @@ export class RoutesComponent {
     this.openSaveUpdate = true;
     this.updateButtom = true;
     this.form.get('number')?.setValue(route.number);
+    this.form.get('sede')?.setValue(route.sede);
     this.updateButtom = true;
     this.letUpdateRoute = route;
   }
