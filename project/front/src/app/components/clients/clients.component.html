@@ -1,3 +1,4 @@
+<!--
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
@@ -44,7 +45,7 @@
                     <div style="display: flex; justify-content: center;" *ngIf="loading"><p-progressSpinner ariaLabel="loading"></p-progressSpinner>
                     </div>
 
-                    <!-- Table with stripped rows -->
+                    &lt;!&ndash; Table with stripped rows &ndash;&gt;
                     <p-table [value]="clients" [tableStyle]="{ 'min-width': '50rem' }">
 
                         <h1 style="text-align: center;">CLIENTES</h1>
@@ -65,11 +66,11 @@
                                 <th scope="col">Actualizado por</th>
                                 <th scope="col">Fecha actualización</th>
                                 <th scope="col*2">Editar</th>
-                              
+
                             </tr>
                         </ng-template>
-                       
-                        <ng-template pTemplate="body" let-client> 
+
+                        <ng-template pTemplate="body" let-client>
                             <tr >
                                 <td>{{ client.id }}</td>
                                 <td>{{ client.name }}</td>
@@ -78,7 +79,7 @@
                                 <td>{{ client.modified_by.name }}</td>
                                 <td>{{ client.updated_at | date:'dd/MM/yyyy HH:mm' }}</td>
                                 <td><p-button (click)="updateClient(client)" icon="pi pi-check"></p-button></td>
-    
+
                             </tr>
                         </ng-template>
                     </p-table>
@@ -86,12 +87,12 @@
                         <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [totalRecords]="totalRecords"
                             [rows]="row"></p-paginator>
                     </div>
-                    
-                    <!-- End Table with stripped rows -->
-                    
+
+                    &lt;!&ndash; End Table with stripped rows &ndash;&gt;
+
                 </div>
             </div>
 
         </div>
     </div>
-</section>
+</section>-->
