@@ -81,3 +81,6 @@ Q
 !project/back/app/Models/Route.php,f\3\f3be2b4658b76062644786a2c4b0a9d64b830e6a
 R
 "project/back/app/Models/Client.php,b\6\b6bbdf89037fde97e132803bcc8a2dc8d2a819c9
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
