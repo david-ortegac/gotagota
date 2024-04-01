@@ -1,5 +1,5 @@
-import { CreatedBy } from "./audit/createdBy";
-import { ModifiedBy } from "./audit/modifiedBy";
+import { CreatedBy } from "./audit/CreatedBy";
+import { ModifiedBy } from "./audit/ModifiedBy";
 
 export interface Sede {
     id?: number;
