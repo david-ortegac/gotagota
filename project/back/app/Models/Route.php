@@ -32,8 +32,6 @@ class Route extends Model
     protected $hidden = [
         'created_by',
         'modified_by',
-        'updated_at',
-        'created_at',
     ];
 
     /**

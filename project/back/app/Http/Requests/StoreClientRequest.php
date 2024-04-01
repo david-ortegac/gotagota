@@ -27,6 +27,8 @@ class StoreClientRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'document_type' => 'required',
+            'document_number' => 'required|unique:clients',
             'route_id' => 'required',
             'name' => 'required',
             'last_name' => 'required',
@@ -49,6 +51,8 @@ class StoreClientRequest extends FormRequest
     public function messages(): array
     {
         return [
+            "document_type"=>"El tipo de documento es requerido",
+            "document_number"=>"El número de documento es requerido",
             "route_id"=>"La ruta es requerida",
             "name.required" =>"El nombre es requerido",
             "last_name.required" =>"El apellido es requerido",

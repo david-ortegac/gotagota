@@ -48,7 +48,6 @@ export class SedesComponent {
           created_by: el.created_by,
           modified_by: el.modified_by
         }
-        console.log(el)
         this.sedes.push(sedeDecrypt)
       });
       this.first = res.from;
@@ -65,9 +64,8 @@ export class SedesComponent {
     }
 
 
-    this.sedesService.createSede(sede).subscribe(res => {
+    this.sedesService.createSede(sede).subscribe(() => {
       this.loading = true;
-      console.log(res.data);
       this.getAllSedes(0);
       this.openSaveUpdate = false;
       this.form.reset();
@@ -79,7 +77,7 @@ export class SedesComponent {
   update() {
     this.letUpdateSede.name = encrypt(this.form.get('name')?.value);
 
-    this.sedesService.updateSede(this.letUpdateSede).subscribe(res => {
+    this.sedesService.updateSede(this.letUpdateSede).subscribe(() => {
       this.loading = true;
       this.getAllSedes(0);
       this.updateButtom = false;
@@ -108,7 +106,7 @@ export class SedesComponent {
 
   onPageChange($event: any) {
     console.log($event.page + 1);
-    let page = $event.page + 1;
+    const page = $event.page + 1;
     this.getAllSedes(page)
   }
 }

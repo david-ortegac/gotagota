@@ -95,11 +95,12 @@ class RouteController extends Controller
 
         if (isset($route)) {
             $route->sede = $route->sede;
+            $route->created_by = $route->createdBy;
+            $route->modified_by = $route->modifiedBy;
             unset($route->sede_id);
-            return response()->json([
-                'status' => Response::HTTP_OK,
-                'data' => $route
-            ]);
+            return response()->json(
+                $route, Response::HTTP_OK
+            );
         } else {
             return response()->json([
                 'status' => Response::HTTP_BAD_REQUEST,

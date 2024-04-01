@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  *
  * @property $id
  * @property $route_id
+ * @property $document_type
+ * @property $document_number
  * @property $name
  * @property $last_name
  * @property $email
@@ -39,7 +41,8 @@ class Client extends Model
     use HasFactory;
 
     static array $rules = [
-        'route_id' => 'required',
+        'document_type' => 'required',
+        'document_number' => 'required',
         'name' => 'required',
         'last_name' => 'required',
         'phone' => 'required',
@@ -63,6 +66,8 @@ class Client extends Model
      * @var array
      */
     protected $fillable = [
+        'document_type',
+        'document_number',
         'route_id',
         'name',
         'last_name',

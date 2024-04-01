@@ -105,8 +105,7 @@ class ClientController extends Controller
             $client->modified_by = $client->modifiedBy;
             $client->route = $client->route;
             return response()->json([
-                'status' => Response::HTTP_OK,
-                'data' => $client
+                $client, Response::HTTP_OK
             ]);
         } else {
             return response()->json([
@@ -159,16 +158,21 @@ class ClientController extends Controller
 
     }
 
-    /**
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function destroy($id)
-    {
-        $client = Client::find($id)->delete();
+    public function searchByDocument($document){
+        $client = Client::where('document_number', $document);
 
-        return redirect()->route('clients.index')
-            ->with('success', 'Client deleted successfully');
+        if (isset($client)) {
+            $client->created_by = $client->createdBy;
+            $client->modified_by = $client->modifiedBy;
+            $client->route = $client->route;
+            return response()->json([
+                $client, Response::HTTP_OK
+            ]);
+        } else {
+            return response()->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'error' => 'Número de documento no encontrado',
+            ]);
+        }
     }
 }

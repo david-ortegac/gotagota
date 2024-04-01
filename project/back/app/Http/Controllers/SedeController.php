@@ -58,10 +58,9 @@ class SedeController extends Controller
         if (isset($sede)) {
             $sede->created_by = $sede->createdBy;
             $sede->modified_by = $sede->modifiedBy;
-            return response()->json([
-                'status' => Response::HTTP_OK,
-                'data' => $sede
-            ]);
+            return response()->json(
+                $sede, Response::HTTP_OK
+            );
         } else {
             return response()->json([
                 'status' => Response::HTTP_BAD_REQUEST,
