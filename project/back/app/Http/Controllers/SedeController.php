@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSedeRequest;
+use App\Http\Requests\UpdateSedeRequest;
 use App\Models\Sede;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,7 +20,7 @@ class SedeController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $sedes = Sede::paginate();
 
@@ -27,11 +29,10 @@ class SedeController extends Controller
             $sede->modified_by = $sede->modifiedBy;
         }
 
-        if ($sedes->count() > 0) {
-            return response()->json($sedes, Response::HTTP_OK);
-        } else {
-            return response()->json($sedes, Response::HTTP_NOT_FOUND);
-        }
+        return response()->json(
+            $sedes, Response::HTTP_OK
+        );
+
     }
 
     /*
@@ -48,21 +49,20 @@ class SedeController extends Controller
         }
 
         return response()->json(
-            $sedes,Response::HTTP_OK,
+            $sedes, Response::HTTP_OK,
         );
 
     }
 
-    public function show(int $id)
+    public function show(int $id): JsonResponse
     {
         $sede = Sede::findOrFail($id);
         if (isset($sede)) {
             $sede->created_by = $sede->createdBy;
             $sede->modified_by = $sede->modifiedBy;
-            return response()->json([
-                'status' => Response::HTTP_OK,
-                'data' => $sede
-            ]);
+            return response()->json(
+                $sede, Response::HTTP_OK
+            );
         } else {
             return response()->json([
                 'status' => Response::HTTP_BAD_REQUEST,
@@ -77,31 +77,22 @@ class SedeController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(StoreSedeRequest $request): JsonResponse
     {
-        $validated = request()->validate(Sede::$rules);
+        $sede = new Sede;
+        $sede->name = $request->name;
+        $sede->created_by = Auth()->User()->id;
+        $sede->modified_by = Auth()->User()->id;
 
-        if ($validated) {
-            $sede = new Sede;
-            $sede->name = $request->name;
-            $sede->created_by = Auth()->User()->id;
-            $sede->modified_by = Auth()->User()->id;
+        $sede->save();
 
-            $sede->save();
+        $sede->created_by = $sede->createdBy;
+        $sede->modified_by = $sede->modifiedBy;
 
-            $sede->created_by = $sede->createdBy;
-            $sede->modified_by = $sede->modifiedBy;
+        return response()->json(
+            $sede, Response::HTTP_OK
+        );
 
-            return response()->json([
-                'status' => Response::HTTP_OK,
-                'data' => $sede
-            ]);
-        } else {
-            return response()->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'error' => 'Error al guardar',
-            ]);
-        }
     }
 
     /**
@@ -111,27 +102,19 @@ class SedeController extends Controller
      * @param Sede $sede
      * @return JsonResponse
      */
-    public function update(Request $request, Sede $sede)
+    public function update(UpdateSedeRequest $request, Sede $sede): JsonResponse
     {
-        $validated = request()->validate(Sede::$rules);
+        $sede->name = $request->name;
+        $sede->modified_by = Auth()->User()->id;
 
-        if ($validated) {
-            $sede = Sede::findOrFail($request->id);
-            $sede->name = $request->name;
-            $sede->modified_by = Auth()->User()->id;
+        $sede->update();
 
-            $sede->update();
+        $sede->created_by = $sede->createdBy;
+        $sede->modified_by = $sede->modifiedBy;
 
-            $sede->created_by = $sede->createdBy;
-            $sede->modified_by = $sede->modifiedBy;
-
-            return response()->json([
-                'status' => Response::HTTP_OK,
-                'data' => $sede
-            ]);
-        } else {
-            return response()->json("error", 404);
-        }
+        return response()->json(
+            $sede,Response::HTTP_OK
+        );
 
     }
 }

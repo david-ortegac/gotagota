@@ -30,6 +30,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::resource('/routes', RouteController::class);
     Route::get('routes_all', [RouteController::class, 'getAll'])->name('routes.getAll');
+
+    Route::resource('/clients', ClientController::class);
+    Route::get('clients_all', [ClientController::class, 'getAll'])->name('clients.getAll');
+    Route::get('clients/search_by_document/{document}', [ClientController::class, 'searchByDocumentNumber'])->name('clients.searchByDocumentNumber');
 });
 
 

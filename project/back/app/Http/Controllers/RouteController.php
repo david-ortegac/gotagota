@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRouteRequest;
+use App\Http\Requests\UpdateRouteRequest;
 use App\Models\Route;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,7 +20,7 @@ class RouteController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $routes = Route::paginate();
 
@@ -28,11 +30,7 @@ class RouteController extends Controller
             $route->modified_by = $route->modifiedBy;
         }
 
-        if ($routes->count() > 0) {
-            return response()->json($routes, Response::HTTP_OK);
-        } else {
-            return response()->json($routes, Response::HTTP_NOT_FOUND);
-        }
+        return response()->json($routes, Response::HTTP_OK);
 
     }
 
@@ -49,9 +47,8 @@ class RouteController extends Controller
             $route->sede = $route->sede->name;
         }
         return response()->json(
-            $routes,Response::HTTP_OK,
+            $routes, Response::HTTP_OK,
         );
-
     }
 
     /**
@@ -60,30 +57,21 @@ class RouteController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreRouteRequest $request): JsonResponse
     {
-        $validated = request()->validate(Route::$rules);
+        $route = new Route();
+        $route->sede_id = $request->sede_id;
+        $route->number = $request->number;
+        $route->created_by = Auth()->User()->id;
+        $route->modified_by = Auth()->User()->id;
 
-        if ($validated) {
-            $route = new Route();
-            $route->sede_id = $request->sede_id;
-            $route->number = $request->number;
-            $route->created_by = Auth()->User()->id;
-            $route->modified_by = Auth()->User()->id;
+        $route->save();
 
-            $route->save();
+        $route->sede = $route->sede->name;
 
-            $route->sede = $route->sede->name;
-            return response()->json([
-                'status' => Response::HTTP_CREATED,
-                'data' => $route
-            ]);
-        } else {
-            return response()->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'error' => 'Error al guardar',
-            ]);
-        }
+        return response()->json(
+            $route, Response::HTTP_CREATED
+        );
     }
 
     /**
@@ -98,10 +86,9 @@ class RouteController extends Controller
 
         if (isset($route)) {
             $route->sede = $route->sede->name;
-            return response()->json([
-                'status' => Response::HTTP_OK,
-                'data' => $route
-            ]);
+            return response()->json(
+                $route, Response::HTTP_OK
+            );
         } else {
             return response()->json([
                 'status' => Response::HTTP_BAD_REQUEST,
@@ -117,26 +104,18 @@ class RouteController extends Controller
      * @param Route $route
      * @return JsonResponse
      */
-    public function update(Request $request, Route $route): JsonResponse
+    public function update(UpdateRouteRequest $request, Route $route): JsonResponse
     {
-        $validated = request()->validate(Route::$rules);
+        $route->sede_id = $request->sede_id;
+        $route->number = $request->number;
+        $route->modified_by = Auth()->User()->id;
 
-        if ($validated) {
-            $route = Route::findOrFail($request->id);
-            $route->sede_id = $request->sede_id;
-            $route->number = $request->number;
-            $route->modified_by = Auth()->User()->id;
+        $route->update();
 
-            $route->update();
-
-            $route->sede = $route->sede->name;
-            return response()->json([
-                'status' => Response::HTTP_OK,
-                'data' => $route
-            ]);
-        } else {
-            return response()->json("error", 404);
-        }
+        $route->sede = $route->sede->name;
+        return response()->json(
+            $route, Response::HTTP_OK
+        );
     }
 
 }

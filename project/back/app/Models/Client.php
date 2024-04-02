@@ -2,14 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Class Client
  *
  * @property $id
  * @property $route_id
+ * @property $document_type
+ * @property $document_number
  * @property $name
  * @property $last_name
  * @property $email
@@ -24,32 +29,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property $modified_by
  * @property $created_at
  * @property $updated_at
- *
  * @property Loan[] $loans
  * @property Route $route
- * @property User $user
- * @property User $user
+ * @property User $createdBy
+ * @property User $modifiedBy
  * @package App
- * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin Builder
  */
 class Client extends Model
 {
     use HasFactory;
-
-    static $rules = [
-        'route_id' => 'required',
-        'name' => 'required',
-        'last_name' => 'required',
-        'phone' => 'required',
-        'neighborhood' => 'required',
-        'address' => 'required',
-        'city' => 'required',
-        'profession' => 'required',
-        'notes' => 'required',
-        'type' => 'required',
-        'created_by' => 'required',
-        'modified_by' => 'required',
-    ];
 
     protected $perPage = 20;
 
@@ -65,6 +54,8 @@ class Client extends Model
      * @var array
      */
     protected $fillable = [
+        'document_type',
+        'document_number',
         'route_id',
         'name',
         'last_name',
@@ -81,7 +72,7 @@ class Client extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function loans()
     {
@@ -89,7 +80,7 @@ class Client extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function route()
     {
@@ -98,7 +89,7 @@ class Client extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function createdBy()
     {
@@ -107,7 +98,7 @@ class Client extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function modifiedBy()
     {
