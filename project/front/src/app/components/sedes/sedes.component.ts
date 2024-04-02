@@ -37,18 +37,17 @@ export class SedesComponent {
 
   getAllSedes(page: number) {
     this.loading = true;
-    this.sedes = [];
     this.sedesService.getAllSedes(page || 0).subscribe(res => {
+      this.loading = false;
       res.data.forEach(el =>{
         const sedeDecrypt = {
-          id: el.id,
           name: decrypt(el.name!),
-          created_at: el.created_at,
-          updated_at: el.updated_at,
+          id: el.id,
           created_by: el.created_by,
-          modified_by: el.modified_by
+          modified_by: el.modified_by,
+          created_at: el.created_at,
+          updated_at: el.updated_at
         }
-        console.log(el)
         this.sedes.push(sedeDecrypt)
       });
       this.first = res.from;
@@ -79,7 +78,7 @@ export class SedesComponent {
   update() {
     this.letUpdateSede.name = encrypt(this.form.get('name')?.value);
 
-    this.sedesService.updateSede(this.letUpdateSede).subscribe(res => {
+    this.sedesService.updateSede(this.letUpdateSede).subscribe(() => {
       this.loading = true;
       this.getAllSedes(0);
       this.updateButtom = false;
@@ -108,7 +107,7 @@ export class SedesComponent {
 
   onPageChange($event: any) {
     console.log($event.page + 1);
-    let page = $event.page + 1;
+    const page = $event.page + 1;
     this.getAllSedes(page)
   }
 }

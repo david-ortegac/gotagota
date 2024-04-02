@@ -26,24 +26,25 @@ class UpdateRouteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sede_id' => 'required',
-            'number' => 'required'
+            'number' => 'required',
+            'sede_id' => "required",
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'status'   => "Error en datos requeridos",
-            'data'      => $validator->errors()
+            'status' => "Error en datos requeridos",
+            'data' => $validator->errors()
         ], Response::HTTP_BAD_REQUEST));
     }
 
     public function messages(): array
     {
         return [
-            'route_id.required'=>"La ruta es requerida",
-            'number.required'=>"El nombre o número de la ruta es requerido",
+            "number" => "El número y/o nombre de la ruta es requerido",
+            "sede_id" => "El Id de la sede es requerido"
         ];
     }
+
 }

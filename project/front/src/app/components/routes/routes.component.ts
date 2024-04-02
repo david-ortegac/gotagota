@@ -23,8 +23,7 @@ export class RoutesComponent {
   totalRecords: number = 0;
   loading: boolean = false;
   updateButtom: boolean = false;
-  letUpdateRoute: Route = {
-  }
+  letUpdateRoute: Route = {}
   selectedSede: Route={}
 
   constructor(
@@ -99,7 +98,7 @@ export class RoutesComponent {
     this.letUpdateRoute.number = encrypt(this.form.get('number')?.value);
     this.letUpdateRoute.sede = this.form.get('sede')?.value
 
-    this.routesService.updateRoute(this.letUpdateRoute).subscribe(res => {
+    this.routesService.updateRoute(this.letUpdateRoute).subscribe(() => {
       this.loading = true;
       this.getAllRoutes(0);
       this.updateButtom = false;
@@ -129,7 +128,7 @@ export class RoutesComponent {
 
   onPageChange($event: any) {
     console.log($event.page + 1);
-    let page = $event.page + 1;
+    const page = $event.page + 1;
     this.getAllRoutes(page)
   }
 

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -22,7 +21,7 @@ class UpdateSedeRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -42,7 +41,8 @@ class UpdateSedeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'=>"El nombre de la sede es requerido",
+            "document_type"=>"El nombre de la sede es requerido",
         ];
     }
+
 }

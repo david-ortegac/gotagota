@@ -27,6 +27,11 @@ class Route extends Model
 {
     use HasFactory;
 
+    static $rules = [
+        'sede_id' => 'required',
+        'number' => 'required'
+    ];
+
     protected $perPage = 20;
 
     protected $hidden = [
@@ -34,6 +39,7 @@ class Route extends Model
         'modified_by',
         'updated_at',
         'created_at',
+        'sede_id'
     ];
 
     /**
@@ -54,6 +60,14 @@ class Route extends Model
     public function clients()
     {
         return $this->hasMany('App\Models\Client', 'route_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function employees()
+    {
+        return $this->hasMany('App\Models\Employee', 'route_id', 'id');
     }
 
     /**
