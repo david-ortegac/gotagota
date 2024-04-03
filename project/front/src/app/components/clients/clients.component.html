@@ -1,14 +1,13 @@
-<!--
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
 
             <div class="card">
                 <div class="card-body" style="border-color: black; border: 15px;">
-                    <h5 class="card-title">Sedes</h5>
+                    <h5 class="card-title">Clientes</h5>
 
                     <div class="mb-3" *ngIf="!openSaveUpdate">
-                        <button (click)="openCreateClient()" class="btn btn-success">Crear Sede</button>
+                        <button (click)="openCreateClient()" class="btn btn-success">Crear Cliente</button>
                     </div>
                     <div class="mb-3" *ngIf="openSaveUpdate">
                         <button (click)="closeCreateClient()" class="btn btn-danger">Cerrar</button>
@@ -19,12 +18,12 @@
                             <div class="card-body">
 
                                 <div class="pt-4 pb-2">
-                                    <h5 class="card-title text-center pb-0 fs-4">Crear una sede</h5>
+                                    <h5 class="card-title text-center pb-0 fs-4">Crear una cliente</h5>
                                 </div>
 
                                 <form [formGroup]="form" class="row g-3 needs-validation">
                                     <div class="col-12">
-                                        <label class="form-label">Digite el nombre de la sede</label>
+                                        <label class="form-label">Digite el nombre del cliente</label>
                                         <input formControlName="name" type="text" name="name" class="form-control"
                                             id="yourName" required>
                                         <div class="invalid-feedback">Por favor digite el nombre</div>
@@ -45,54 +44,72 @@
                     <div style="display: flex; justify-content: center;" *ngIf="loading"><p-progressSpinner ariaLabel="loading"></p-progressSpinner>
                     </div>
 
-                    &lt;!&ndash; Table with stripped rows &ndash;&gt;
-                    <p-table [value]="clients" [tableStyle]="{ 'min-width': '50rem' }">
-
+                    <!-- Table with stripped rows -->
+          
+                    <p-table  class="table-striped table-condensed " [value]="clients" [tableStyle]="{ 'min-width': '50rem' }" >
+                        
                         <h1 style="text-align: center;">CLIENTES</h1>
 
                         <ng-template pTemplate="header">
+                           
                             <tr>
-                                <th scope="col">Id</th>
-                                <th scope="col">Ruta</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Apellidos</th>
-                                <th scope="col">Celular</th>
-                                <th scope="col">Ciudad</th>
-                                <th scope="col">Barrio</th>
-                                <th scope="col">Direccion</th>
-                                <th scope="col">Profesion</th>
-                                <th scope="col">Notas</th>
-                                <th scope="col">Tipo</th>
-                                <th scope="col">Actualizado por</th>
-                                <th scope="col">Fecha actualización</th>
-                                <th scope="col*2">Editar</th>
-
+                                <th style="min-width:7rem"><div class="flex align-items-center">ID</div></th>
+                                <th style="min-width:7rem"><div class="flex align-items-center">T.Doc</div></th>
+                                <th style="min-width:7rem"><div class="flex align-items-center">#.Doc</div></th>
+                                <th style="min-width:12rem"><div class="flex align-items-center">Ruta</div></th>
+                                <th style="min-width:12rem"><div class="flex align-items-center">Nombre</div></th>
+                                <th style="min-width:12rem"><div class="flex align-items-center">Apellido</div></th>
+                                <th style="min-width:12rem"><div class="flex align-items-center">Celular</div></th>
+                                <th style="min-width:12rem"><div class="flex align-items-center">Barrio</div></th>
+                                <th style="min-width:12rem"><div class="flex align-items-center">Dirrecion</div></th>
+                                <th style="min-width:12rem"><div class="flex align-items-center">Ciudad</div></th>
+                                <th style="min-width:12rem"><div class="flex align-items-center">Profesion</div></th>
+                                <th style="min-width:12rem"><div class="flex align-items-center">Notas</div></th>
+                                <th style="min-width:12rem"><div class="flex align-items-center">Calificacion</div></th>
+                                <th style="min-width:12rem"><div class="flex align-items-center">Creado por</div></th>
+                                <th style="min-width:12rem"><div class="flex align-items-center">Fecha creación</div></th>
+                                <th style="min-width:12rem"><div class="flex align-items-center">Actualizado por</div></th>
+                                <th style="min-width:12rem"><div class="flex align-items-center">Fecha actualización</div></th>
+                                <th style="min-width:5rem"><div class="flex align-items-center">Editar</div></th>       
                             </tr>
+                    
                         </ng-template>
-
-                        <ng-template pTemplate="body" let-client>
+                       
+                        <ng-template pTemplate="body" let-client> 
                             <tr >
                                 <td>{{ client.id }}</td>
+                                <td>{{ client.document_type }}</td>
+                                <td>{{ client.document_number }}</td>
+                                <td>{{ client.route.number }}</td>
                                 <td>{{ client.name }}</td>
+                                <td>{{ client.last_name }}</td>
+                                <td>{{ client.phone }}</td>
+                                <td>{{ client.neighborhood }}</td>
+                                <td>{{ client.address }}</td>
+                                <td>{{ client.city }}</td>
+                                <td>{{ client.profession }}</td>
+                                <td>{{ client.notes }}</td>
+                                <td>{{ client.type }}</td>
                                 <td>{{ client.created_by.name }}</td>
                                 <td>{{ client.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
                                 <td>{{ client.modified_by.name }}</td>
                                 <td>{{ client.updated_at | date:'dd/MM/yyyy HH:mm' }}</td>
                                 <td><p-button (click)="updateClient(client)" icon="pi pi-check"></p-button></td>
-
+    
                             </tr>
                         </ng-template>
                     </p-table>
+           
                     <div class="flex-auto">
                         <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [totalRecords]="totalRecords"
                             [rows]="row"></p-paginator>
                     </div>
-
-                    &lt;!&ndash; End Table with stripped rows &ndash;&gt;
-
+                    
+                    <!-- End Table with stripped rows -->
+                    
                 </div>
             </div>
 
         </div>
     </div>
-</section>-->
+</section>

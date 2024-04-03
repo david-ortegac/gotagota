@@ -37,6 +37,7 @@ export class SedesComponent {
 
   getAllSedes(page: number) {
     this.loading = true;
+    this.sedes=[];
     this.sedesService.getAllSedes(page || 0).subscribe(res => {
       this.loading = false;
       res.data.forEach(el =>{
