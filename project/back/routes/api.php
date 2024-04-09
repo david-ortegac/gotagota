@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::resource('/clients', ClientController::class);
     Route::get('clients_all', [ClientController::class, 'getAll'])->name('clients.getAll');
+    Route::get('clients/search_by_document/{document}', [ClientController::class, 'searchByDocumentNumber'])->name('clients.searchByDocumentNumber');
 });
 
 
@@ -44,4 +45,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
-
+Route::resource('/clients', ClientController::class);

@@ -20,16 +20,15 @@ class RouteController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $routes = Route::paginate();
 
-    foreach ($routes as $route) {
-        $route->sede = $route->sede;
-        unset($route->sede_id);
-        $route->created_by = $route->createdBy;
-        $route->modified_by = $route->modifiedBy;
-    }
+        foreach ($routes as $route) {
+            $route->sede_id = $route->sede->name;
+            $route->created_by = $route->createdBy;
+            $route->modified_by = $route->modifiedBy;
+        }
 
         return response()->json($routes, Response::HTTP_OK);
 
@@ -45,13 +44,11 @@ class RouteController extends Controller
         foreach ($routes as $route) {
             $route->created_by = $route->createdBy;
             $route->modified_by = $route->modifiedBy;
-            $route->sede = $route->sede;
-            unset($route->sede_id);
+            $route->sede = $route->sede->name;
         }
         return response()->json(
             $routes, Response::HTTP_OK,
         );
-
     }
 
     /**
@@ -70,17 +67,11 @@ class RouteController extends Controller
 
         $route->save();
 
-        $route->sede_id = $route->sede;
-        $route->number = $route->number;
-        $route->created_by = $route->createdBy;
-        $route->modified_by = $route->modifiedBy;
-
         $route->sede = $route->sede->name;
-        return response()->json([
-            'status' => "Sede guardada exitosamente",
-            'data' => $route
-        ], Response::HTTP_CREATED);
 
+        return response()->json(
+            $route, Response::HTTP_CREATED
+        );
     }
 
     /**
@@ -94,12 +85,10 @@ class RouteController extends Controller
         $route = Route::findOrFail($id);
 
         if (isset($route)) {
-            $route->sede = $route->sede;
-            unset($route->sede_id);
-            return response()->json([
-                'status' => Response::HTTP_OK,
-                'data' => $route
-            ]);
+            $route->sede = $route->sede->name;
+            return response()->json(
+                $route, Response::HTTP_OK
+            );
         } else {
             return response()->json([
                 'status' => Response::HTTP_BAD_REQUEST,
@@ -123,13 +112,10 @@ class RouteController extends Controller
 
         $route->update();
 
-        $route->sede = $route->sede;
-
-        return response()->json([
-            'status' => "Ruta actualizada exitosamente",
-            'data' => $route
-        ], Response::HTTP_OK);
-
+        $route->sede = $route->sede->name;
+        return response()->json(
+            $route, Response::HTTP_OK
+        );
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  *
  * @property $id
  * @property $route_id
+ * @property $document_type
+ * @property $document_number
  * @property $name
  * @property $last_name
  * @property $email
@@ -26,28 +29,16 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property $modified_by
  * @property $created_at
  * @property $updated_at
- *
  * @property Loan[] $loans
  * @property Route $route
  * @property User $createdBy
  * @property User $modifiedBy
  * @package App
- * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin Builder
  */
 class Client extends Model
 {
     use HasFactory;
-
-    static array $rules = [
-        'route_id' => 'required',
-        'name' => 'required',
-        'last_name' => 'required',
-        'phone' => 'required',
-        'neighborhood' => 'required',
-        'address' => 'required',
-        'city' => 'required',
-        'profession' => 'required'
-    ];
 
     protected $perPage = 20;
 
@@ -63,9 +54,12 @@ class Client extends Model
      * @var array
      */
     protected $fillable = [
+        'document_type',
+        'document_number',
         'route_id',
         'name',
         'last_name',
+        'email',
         'phone',
         'neighborhood',
         'address',
@@ -80,7 +74,7 @@ class Client extends Model
     /**
      * @return HasMany
      */
-    public function loans(): HasMany
+    public function loans()
     {
         return $this->hasMany('App\Models\Loan', 'client_id', 'id');
     }
@@ -91,13 +85,13 @@ class Client extends Model
     public function route()
     {
         return $this->hasOne('App\Models\Route', 'id', 'route_id')
-        ->select(array('id','number','sede_id'));
+        ->select(array('number'));
     }
 
     /**
      * @return HasOne
      */
-    public function createdBy(): HasOne
+    public function createdBy()
     {
         return $this->hasOne('App\Models\User', 'id', 'created_by')
         ->select(array('name','email'));
@@ -106,7 +100,7 @@ class Client extends Model
     /**
      * @return HasOne
      */
-    public function modifiedBy(): HasOne
+    public function modifiedBy()
     {
         return $this->hasOne('App\Models\User', 'id', 'modified_by')
         ->select(array('name','email'));

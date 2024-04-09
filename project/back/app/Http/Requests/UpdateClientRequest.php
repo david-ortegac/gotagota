@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -21,11 +22,13 @@ class UpdateClientRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
+            'document_type' => 'required',
+            'document_number' => 'required',
             'route_id' => 'required',
             'name' => 'required',
             'last_name' => 'required',
@@ -48,6 +51,8 @@ class UpdateClientRequest extends FormRequest
     public function messages(): array
     {
         return [
+            "document_type"=>"El tipo de documento es requerido",
+            "document_number"=>"El número de documento es requerido",
             "route_id"=>"La ruta es requerida",
             "name.required" =>"El nombre es requerido",
             "last_name.required" =>"El apellido es requerido",

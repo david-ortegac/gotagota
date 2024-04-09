@@ -20,7 +20,7 @@ class SedeController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $sedes = Sede::paginate();
 
@@ -29,7 +29,9 @@ class SedeController extends Controller
             $sede->modified_by = $sede->modifiedBy;
         }
 
-        return response()->json($sedes, Response::HTTP_OK);
+        return response()->json(
+            $sedes, Response::HTTP_OK
+        );
 
     }
 
@@ -52,16 +54,15 @@ class SedeController extends Controller
 
     }
 
-    public function show(int $id)
+    public function show(int $id): JsonResponse
     {
         $sede = Sede::findOrFail($id);
         if (isset($sede)) {
             $sede->created_by = $sede->createdBy;
             $sede->modified_by = $sede->modifiedBy;
-            return response()->json([
-                'status' => Response::HTTP_OK,
-                'data' => $sede
-            ]);
+            return response()->json(
+                $sede, Response::HTTP_OK
+            );
         } else {
             return response()->json([
                 'status' => Response::HTTP_BAD_REQUEST,
@@ -76,7 +77,7 @@ class SedeController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function store(StoreSedeRequest $request)
+    public function store(StoreSedeRequest $request): JsonResponse
     {
         $sede = new Sede;
         $sede->name = $request->name;
@@ -88,10 +89,9 @@ class SedeController extends Controller
         $sede->created_by = $sede->createdBy;
         $sede->modified_by = $sede->modifiedBy;
 
-        return response()->json([
-            'status' => "Se ha creado la sede de exitosamente",
-            'data' => $sede
-        ], Response::HTTP_OK);
+        return response()->json(
+            $sede, Response::HTTP_OK
+        );
 
     }
 
@@ -102,7 +102,7 @@ class SedeController extends Controller
      * @param Sede $sede
      * @return JsonResponse
      */
-    public function update(UpdateSedeRequest $request, Sede $sede)
+    public function update(UpdateSedeRequest $request, Sede $sede): JsonResponse
     {
         $sede->name = $request->name;
         $sede->modified_by = Auth()->User()->id;
@@ -112,9 +112,9 @@ class SedeController extends Controller
         $sede->created_by = $sede->createdBy;
         $sede->modified_by = $sede->modifiedBy;
 
-        return response()->json([
-            'status' => "Se ha actualizado la sede exitosamente",
-            'data' => $sede
-        ], Response::HTTP_OK);
+        return response()->json(
+            $sede,Response::HTTP_OK
+        );
+
     }
 }
