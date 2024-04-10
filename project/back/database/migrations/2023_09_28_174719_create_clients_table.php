@@ -19,7 +19,6 @@ return new class extends Migration
          */
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('route_id')->references('id')->on('routes');
             $table->string('document_type');
             $table->string('document_number');
             $table->string('name');
