@@ -24,7 +24,6 @@ export class ClientsService {
 
   constructor(private httpClient: HttpClient) {
     this.url = environment.apiUrl;
-
   }
 
   getAllClients(page: number): Observable<Pageable<Client[]>> {

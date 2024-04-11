@@ -1,9 +1,15 @@
-import { Client } from './../../models/Client';
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {Client} from './../../models/Client';
+import {Component} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
-import { ClientsService } from 'src/app/services/clients/clients.service';
-import { decrypt, encrypt } from 'src/app/utils/util-encrypt';
+import {ClientsService} from 'src/app/services/clients/clients.service';
+import {encrypt} from 'src/app/utils/util-encrypt';
+
+
+interface documentType {
+  name: string,
+  id: string
+}
 
 @Component({
   selector: 'app-clients',
@@ -12,6 +18,7 @@ import { decrypt, encrypt } from 'src/app/utils/util-encrypt';
 })
 export class ClientsComponent {
 
+  documentTypes: documentType[] = [];
   clients: Client[] = [];
   openSaveUpdate: boolean = false;
   form: FormGroup;
@@ -21,36 +28,41 @@ export class ClientsComponent {
   totalRecords: number = 0;
   loading: boolean = false;
   updateButtom: boolean = false;
-  letUpdateClient: Client = {
-
-  }
+  letUpdateClient: Client = {}
 
   constructor(
     private clientsService: ClientsService,
   ) {
+    this.createDocumentTypes();
     this.loading = true;
     this.getAllClients(0);
     this.form = new FormGroup({
+      document_type: new FormControl('', [Validators.minLength(3), Validators.required]),
+      document_number: new FormControl('', [Validators.minLength(3), Validators.required]),
       name: new FormControl('', [Validators.minLength(3), Validators.required]),
+      last_name: new FormControl('', [Validators.minLength(3), Validators.required]),
+      phone: new FormControl('', [Validators.minLength(3), Validators.required]),
+      neighborhood: new FormControl('', [Validators.minLength(3), Validators.required]),
+      address: new FormControl('', [Validators.minLength(3), Validators.required]),
+      city: new FormControl('', [Validators.minLength(3), Validators.required]),
+      profession: new FormControl('', [Validators.minLength(3), Validators.required]),
+      notes: new FormControl('', [Validators.minLength(3)]),
+      type: new FormControl('', [Validators.minLength(3)]),
     });
   }
 
   getAllClients(page: number) {
     this.loading = true;
-    this.clients=[];
+    this.clients = [];
     this.clientsService.getAllClients(page || 0).subscribe(res => {
       this.loading = false;
-      res.data.forEach(el =>{
+      res.data.forEach(el => {
         const clientDecrypt = {
           id: el.id,
           document_type: el.document_type,
           document_number: el.document_number,
-          route:{
-            number: decrypt(el.route?.number!)
-          },
           name: el.name,
           last_name: el.last_name,
-          email: el.email,
           phone: el.phone,
           neighborhood: el.neighborhood,
           address: el.address,
@@ -75,9 +87,8 @@ export class ClientsComponent {
 
   createNewClient() {
     const client: Client = {
-      name:encrypt( this.form.get('name')?.value)
+      name: encrypt(this.form.get('name')?.value)
     }
-
 
     this.clientsService.createClient(client).subscribe(res => {
       this.loading = true;
@@ -87,7 +98,6 @@ export class ClientsComponent {
       this.form.reset();
     })
     this.loading = false;
-
   }
 
   update() {
@@ -111,7 +121,6 @@ export class ClientsComponent {
     this.letUpdateClient = client;
   }
 
-
   openCreateClient() {
     this.openSaveUpdate = true
   }
@@ -124,6 +133,15 @@ export class ClientsComponent {
     console.log($event.page + 1);
     const page = $event.page + 1;
     this.getAllClients(page)
+  }
+
+  createDocumentTypes() {
+    this.documentTypes=[
+      {name:'CC', id:'CC'},
+      {name:'CE', id:'CE'},
+      {name:'PASS', id:'PASS'},
+      {name:'TI', id:'TI'},
+    ]
   }
 
 }
