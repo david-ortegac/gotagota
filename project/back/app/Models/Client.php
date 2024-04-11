@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * Class Client
  *
  * @property $id
- * @property $route_id
  * @property $document_type
  * @property $document_number
  * @property $name
@@ -45,7 +44,6 @@ class Client extends Model
     protected $hidden = [
         'created_by',
         'modified_by',
-        'route_id',
     ];
 
     /**
@@ -56,7 +54,6 @@ class Client extends Model
     protected $fillable = [
         'document_type',
         'document_number',
-        'route_id',
         'name',
         'last_name',
         'email',
@@ -77,15 +74,6 @@ class Client extends Model
     public function loans()
     {
         return $this->hasMany('App\Models\Loan', 'client_id', 'id');
-    }
-
-    /**
-     * @return HasOne
-     */
-    public function route()
-    {
-        return $this->hasOne('App\Models\Route', 'id', 'route_id')
-        ->select(array('number'));
     }
 
     /**

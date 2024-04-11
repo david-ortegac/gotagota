@@ -29,7 +29,6 @@ class UpdateClientRequest extends FormRequest
         return [
             'document_type' => 'required',
             'document_number' => 'required',
-            'route_id' => 'required',
             'name' => 'required',
             'last_name' => 'required',
             'phone' => 'required',
@@ -53,7 +52,6 @@ class UpdateClientRequest extends FormRequest
         return [
             "document_type"=>"El tipo de documento es requerido",
             "document_number"=>"El número de documento es requerido",
-            "route_id"=>"La ruta es requerida",
             "name.required" =>"El nombre es requerido",
             "last_name.required" =>"El apellido es requerido",
             "phone.required"=>"El telefono es requerido",

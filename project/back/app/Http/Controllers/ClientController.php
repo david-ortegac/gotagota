@@ -21,18 +21,15 @@ class ClientController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $clients = Client::paginate();
 
         foreach ($clients as $client) {
             $client->created_by = $client->createdBy;
             $client->modified_by = $client->modifiedBy;
-            $client->route = $client->route->number;
         }
-
         return response()->json($clients, Response::HTTP_OK);
-
     }
 
     public function getAll(): JsonResponse
@@ -42,9 +39,7 @@ class ClientController extends Controller
         foreach ($clients as $client) {
             $client->created_by = $client->createdBy;
             $client->modified_by = $client->modifiedBy;
-            $client->route = $client->route->number;
         }
-
         return response()->json($clients, Response::HTTP_OK);
     }
 
@@ -59,7 +54,6 @@ class ClientController extends Controller
         $client = new Client();
         $client->document_type = $request->document_type;
         $client->document_number = $request->document_number;
-        $client->route_id = $request->route_id;
         $client->name = $request->name;
         $client->last_name = $request->last_name;
         $client->phone = $request->phone;
@@ -96,7 +90,6 @@ class ClientController extends Controller
         if (isset($client)) {
             $client->created_by = $client->createdBy;
             $client->modified_by = $client->modifiedBy;
-            $client->route = $client->route;
             return response()->json(
                  $client, ResponseAlias::HTTP_OK
             );
@@ -114,7 +107,6 @@ class ClientController extends Controller
         if (isset($client)) {
             $client->created_by = $client->createdBy;
             $client->modified_by = $client->modifiedBy;
-            $client->route = $client->route;
             return response()->json(
                  $client, ResponseAlias::HTTP_OK
             );
@@ -139,7 +131,6 @@ class ClientController extends Controller
 
         if (isset($client)) {
             return $client;
-            $client->route_id = $request->route_id;
             $client->document_type = $request->document_type;
             $client->document_number = $request->document_number;
             $client->name = $request->name;
@@ -155,7 +146,6 @@ class ClientController extends Controller
 
             $client->save();
 
-            $client->route = $client->route;
             $client->created_by = $client->createdBy;
             $client->modified_by = $client->modifiedBy;
 
