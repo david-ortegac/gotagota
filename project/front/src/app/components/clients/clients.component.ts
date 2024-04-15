@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 import {ClientsService} from 'src/app/services/clients/clients.service';
-import {encrypt} from 'src/app/utils/util-encrypt';
+import {decrypt, encrypt} from 'src/app/utils/util-encrypt';
 
 
 interface documentType {
@@ -60,16 +60,16 @@ export class ClientsComponent {
         const clientDecrypt = {
           id: el.id,
           document_type: el.document_type,
-          document_number: el.document_number,
-          name: el.name,
-          last_name: el.last_name,
-          phone: el.phone,
-          neighborhood: el.neighborhood,
-          address: el.address,
-          city: el.city,
-          profession: el.profession,
-          notes: el.notes,
-          type: el.type,
+          document_number: decrypt(el.document_number!),
+          name: decrypt(el.name!),
+          last_name: decrypt(el.last_name!),
+          phone: decrypt(el.phone!),
+          neighborhood: decrypt(el.neighborhood!),
+          address: decrypt(el.address!),
+          city: decrypt(el.city!),
+          profession: decrypt(el.profession!),
+          notes: decrypt(el.notes!),
+          type: decrypt(el.type!),
           created_by: el.created_by,
           modified_by: el.modified_by,
           created_at: el.created_at,
@@ -87,7 +87,16 @@ export class ClientsComponent {
 
   createNewClient() {
     const client: Client = {
-      name: encrypt(this.form.get('name')?.value)
+      document_number: encrypt(this.form.get('document_number')?.value),
+      name: encrypt(this.form.get('name')?.value),
+      last_name: encrypt(this.form.get('last_name')?.value),
+      phone: encrypt(this.form.get('phone')?.value),
+      neighborhood: encrypt(this.form.get('neighborhood')?.value),
+      address: encrypt(this.form.get('address')?.value),
+      city: encrypt(this.form.get('city')?.value),
+      profession: encrypt(this.form.get('profession')?.value),
+      notes: encrypt(this.form.get('notes')?.value),
+      type: encrypt(this.form.get('type')?.value)
     }
 
     this.clientsService.createClient(client).subscribe(res => {
@@ -101,7 +110,16 @@ export class ClientsComponent {
   }
 
   update() {
-    this.letUpdateClient.name = encrypt(this.form.get('name')?.value);
+    this.letUpdateClient.document_number = encrypt(this.form.get('document_number')?.value),
+    this.letUpdateClient.name = encrypt(this.form.get('name')?.value),
+    this.letUpdateClient.last_name = encrypt(this.form.get('last_name')?.value),
+    this.letUpdateClient.phone = encrypt(this.form.get('phone')?.value),
+    this.letUpdateClient.neighborhood = encrypt(this.form.get('neighborhood')?.value),
+    this.letUpdateClient.address = encrypt(this.form.get('address')?.value),
+    this.letUpdateClient.city = encrypt(this.form.get('city')?.value),
+    this.letUpdateClient.profession = encrypt(this.form.get('profession')?.value),
+    this.letUpdateClient.notes = encrypt(this.form.get('notes')?.value),
+    this.letUpdateClient.type = encrypt(this.form.get('type')?.value)
 
     this.clientsService.updateClient(this.letUpdateClient).subscribe(() => {
       this.loading = true;
@@ -116,9 +134,19 @@ export class ClientsComponent {
   updateClient(client: Client) {
     this.openSaveUpdate = true;
     this.updateButtom = true;
+    this.form.get('document_number')?.setValue(client.document_number);
     this.form.get('name')?.setValue(client.name);
+    this.form.get('last_name')?.setValue(client.last_name);
+    this.form.get('phone')?.setValue(client.phone);
+    this.form.get('neighborhood')?.setValue(client.neighborhood);
+    this.form.get('address')?.setValue(client.address);
+    this.form.get('city')?.setValue(client.city);
+    this.form.get('profession')?.setValue(client.profession);
+    this.form.get('notes')?.setValue(client.notes);
+    this.form.get('type')?.setValue(client.type);
     this.updateButtom = true;
     this.letUpdateClient = client;
+  
   }
 
   openCreateClient() {
