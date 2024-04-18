@@ -1,8 +1,20 @@
 <div class="container mt-4">
   <!-- Botón para agregar elementos -->
-  <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#agregarModal">
-    Agregar
-  </button>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#agregarModal">
+        Agregar
+      </button>
+    </div>
+    <div class="col-md-6">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Buscar por ID" aria-label="Buscar por ID" aria-describedby="button-buscar">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" id="button-buscar">Buscar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal para agregar elemento -->
   <div class="modal fade" id="agregarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
