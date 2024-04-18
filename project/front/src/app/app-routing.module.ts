@@ -10,6 +10,7 @@ import { SedesComponent } from './components/sedes/sedes.component';
 import { ClientsComponent } from './components/clients/clients.component';
 import { EmployeesComponent } from './components/employees/employees.component';
 import { DailyCharsComponent } from './components/daily-chars/daily-chars.component';
+import { LoansComponent } from './components/loans/loans.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,9 @@ const routes: Routes = [
       },
       {
         path: 'employees', component: EmployeesComponent
+      },
+      {
+        path: 'loans', component: LoansComponent
       },
     ]
   },
