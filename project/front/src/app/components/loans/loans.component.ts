@@ -1,14 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-loans',
   templateUrl: './loans.component.html',
-  styleUrls: ['./loans.component.scss'],
+  styleUrls: ['./loans.component.css'],
 })
-export class LoansComponent  implements OnInit {
+export class LoansComponent  {
+  search: boolean = false;
 
   constructor() { }
 
-  ngOnInit() {}
+  openSearchByDocument() {
+    this.search = true;
+    console.log(this.search);
+  }
+
+  closeSearchByDocument() {
+    this.search = false;
+  }
 
 }
+

@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Class Route
@@ -21,13 +24,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property User $createdBy
  * @property User $modifiedBy
  * @package App
- * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin Builder
  */
 class Route extends Model
 {
     use HasFactory;
 
-    static $rules = [
+    static array $rules = [
         'sede_id' => 'required',
         'number' => 'required'
     ];
@@ -55,43 +58,43 @@ class Route extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function clients()
+    public function clients(): HasMany
     {
         return $this->hasMany('App\Models\Client', 'route_id', 'id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function employees()
+    public function employees(): HasMany
     {
         return $this->hasMany('App\Models\Employee', 'route_id', 'id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function sede()
+    public function sede(): HasOne
     {
         return $this->hasOne('App\Models\Sede', 'id', 'sede_id')
         ->select(array('id','name'));
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function createdBy()
+    public function createdBy(): HasOne
     {
         return $this->hasOne('App\Models\User', 'id', 'created_by')
         ->select(array('name','email'));
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function modifiedBy()
+    public function modifiedBy(): HasOne
     {
         return $this->hasOne('App\Models\User', 'id', 'modified_by')
         ->select(array('name','email'));

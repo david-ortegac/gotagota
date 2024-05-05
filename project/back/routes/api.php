@@ -21,28 +21,24 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('profile', [AuthController::class, 'userProfile']);
-    Route::post('logout', [AuthController::class, 'logout']);
 
-    Route::resource('/sedes', SedeController::class);
-    Route::get('sedes_all', [SedeController::class, 'getAll'])->name('sedes.getAll');
+Route::get('profile', [AuthController::class, 'userProfile'])->middleware(['auth:sanctum']);
+Route::post('logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
 
-    Route::resource('/routes', RouteController::class);
-    Route::get('routes_all', [RouteController::class, 'getAll'])->name('routes.getAll');
+Route::resource('/sedes', SedeController::class)->middleware(['auth:sanctum']);
+Route::get('/sedes_all', [SedeController::class, 'getAll'])->name('sedes.getAll')->middleware(['auth:sanctum']);
 
-    Route::resource('/clients', ClientController::class);
-    Route::get('clients_all', [ClientController::class, 'getAll'])->name('clients.getAll');
-    Route::get('clients/search_by_document/{document}', [ClientController::class, 'searchByDocumentNumber'])->name('clients.searchByDocumentNumber');
-});
+Route::resource('/routes', RouteController::class)->middleware(['auth:sanctum']);
+Route::get('/routes_all', [RouteController::class, 'getAll'])->name('routes.getAll')->middleware(['auth:sanctum']);
 
-
+Route::resource('/clients', ClientController::class)->middleware(['auth:sanctum']);
+Route::get('/clients_all', [ClientController::class, 'getAll'])->name('clients.getAll')->middleware(['auth:sanctum']);
+Route::get('/clients/search_by_document/{document}', [ClientController::class, 'searchByDocumentNumber'])->name('clients.searchByDocumentNumber')->middleware(['auth:sanctum']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 
 
 Route::resource('/clients', ClientController::class);

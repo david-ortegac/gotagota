@@ -5,7 +5,6 @@ export interface Client {
     id?: number;
     document_type?: number;
     document_number?: string;
-    //route?: Route;
     name?: string;
     last_name?: string;
     phone?: string;

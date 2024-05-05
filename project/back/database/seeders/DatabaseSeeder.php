@@ -20,10 +20,9 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'status' => true
         ]);
-        
+
         $this->call(SedeSeeder::class);
         $this->call(RouteSeeder::class);
-        $this->call(EmployeeSeeder::class);
         $this->call(ClientSeeder::class);
 
     }

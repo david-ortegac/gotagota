@@ -1,10 +1,8 @@
 import {Client} from './../../models/Client';
 import {Component} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ClientsService} from 'src/app/services/clients/clients.service';
 import {decrypt, encrypt} from 'src/app/utils/util-encrypt';
-
 
 interface documentType {
   name: string,
@@ -32,13 +30,11 @@ export class ClientsComponent {
 
   constructor(
     private clientsService: ClientsService,
+    private fb: FormBuilder
   ) {
-    this.createDocumentTypes();
-    this.loading = true;
-    this.getAllClients(0);
-    this.form = new FormGroup({
+    this.form = this.fb.group({
       document_type: new FormControl('', [Validators.minLength(3), Validators.required]),
-      document_number: new FormControl('', [Validators.minLength(3), Validators.required]),
+      document_number: new FormControl('', [Validators.pattern("^[0-9]*$"), Validators.minLength(3), Validators.required]),
       name: new FormControl('', [Validators.minLength(3), Validators.required]),
       last_name: new FormControl('', [Validators.minLength(3), Validators.required]),
       phone: new FormControl('', [Validators.minLength(3), Validators.required]),
@@ -46,9 +42,12 @@ export class ClientsComponent {
       address: new FormControl('', [Validators.minLength(3), Validators.required]),
       city: new FormControl('', [Validators.minLength(3), Validators.required]),
       profession: new FormControl('', [Validators.minLength(3), Validators.required]),
-      notes: new FormControl('', [Validators.minLength(3)]),
-      type: new FormControl('', [Validators.minLength(3)]),
+      notes: new FormControl(''),
+      type: new FormControl(''),
     });
+    this.createDocumentTypes();
+    this.loading = true;
+    this.getAllClients(0);
   }
 
   getAllClients(page: number) {
@@ -86,7 +85,8 @@ export class ClientsComponent {
   }
 
   createNewClient() {
-    const client: Client = {
+    const newClient: Client = {
+      document_type: this.form.get('document_type')?.value,
       document_number: encrypt(this.form.get('document_number')?.value),
       name: encrypt(this.form.get('name')?.value),
       last_name: encrypt(this.form.get('last_name')?.value),
@@ -97,29 +97,30 @@ export class ClientsComponent {
       profession: encrypt(this.form.get('profession')?.value),
       notes: encrypt(this.form.get('notes')?.value),
       type: encrypt(this.form.get('type')?.value)
-    }
+    };
 
-    this.clientsService.createClient(client).subscribe(res => {
+    this.clientsService.createClient(newClient).subscribe(res => {
       this.loading = true;
       console.log(res.data);
       this.getAllClients(0);
       this.openSaveUpdate = false;
       this.form.reset();
     })
+
     this.loading = false;
   }
 
   update() {
     this.letUpdateClient.document_number = encrypt(this.form.get('document_number')?.value),
-    this.letUpdateClient.name = encrypt(this.form.get('name')?.value),
-    this.letUpdateClient.last_name = encrypt(this.form.get('last_name')?.value),
-    this.letUpdateClient.phone = encrypt(this.form.get('phone')?.value),
-    this.letUpdateClient.neighborhood = encrypt(this.form.get('neighborhood')?.value),
-    this.letUpdateClient.address = encrypt(this.form.get('address')?.value),
-    this.letUpdateClient.city = encrypt(this.form.get('city')?.value),
-    this.letUpdateClient.profession = encrypt(this.form.get('profession')?.value),
-    this.letUpdateClient.notes = encrypt(this.form.get('notes')?.value),
-    this.letUpdateClient.type = encrypt(this.form.get('type')?.value)
+      this.letUpdateClient.name = encrypt(this.form.get('name')?.value),
+      this.letUpdateClient.last_name = encrypt(this.form.get('last_name')?.value),
+      this.letUpdateClient.phone = encrypt(this.form.get('phone')?.value),
+      this.letUpdateClient.neighborhood = encrypt(this.form.get('neighborhood')?.value),
+      this.letUpdateClient.address = encrypt(this.form.get('address')?.value),
+      this.letUpdateClient.city = encrypt(this.form.get('city')?.value),
+      this.letUpdateClient.profession = encrypt(this.form.get('profession')?.value),
+      this.letUpdateClient.notes = encrypt(this.form.get('notes')?.value),
+      this.letUpdateClient.type = encrypt(this.form.get('type')?.value)
 
     this.clientsService.updateClient(this.letUpdateClient).subscribe(() => {
       this.loading = true;
@@ -127,7 +128,7 @@ export class ClientsComponent {
       this.updateButtom = false;
       this.openSaveUpdate = false;
       this.form.reset();
-    });
+    }, );
     this.loading = false;
   }
 
@@ -146,7 +147,6 @@ export class ClientsComponent {
     this.form.get('type')?.setValue(client.type);
     this.updateButtom = true;
     this.letUpdateClient = client;
-  
   }
 
   openCreateClient() {
@@ -164,11 +164,11 @@ export class ClientsComponent {
   }
 
   createDocumentTypes() {
-    this.documentTypes=[
-      {name:'CC', id:'CC'},
-      {name:'CE', id:'CE'},
-      {name:'PASS', id:'PASS'},
-      {name:'TI', id:'TI'},
+    this.documentTypes = [
+      {name: 'CC', id: 'CC'},
+      {name: 'CE', id: 'CE'},
+      {name: 'PASS', id: 'PASS'},
+      {name: 'TI', id: 'TI'},
     ]
   }
 

@@ -25,76 +25,72 @@
 
                   <div class="col-sm-3">
                     <p-dropdown [options]="documentTypes" formControlName="document_type" optionLabel="name"
-                                [showClear]="true" placeholder="Tipo de documento"></p-dropdown>
+                                [showClear]="true" placeholder="Tipo de documento" class="form-control"></p-dropdown>
                   </div>
 
                   <div class="col-sm-3">
                     <label class="form-label">Número de documento</label>
-                    <input formControlName="document_number" type="number" name="name" class="form-control"
-                            required>
-                    <div class="invalid-feedback">Por favor digite el documento</div>
+                    <input formControlName="document_number" type="text" class="form-control" />
                   </div>
 
                   <div class="col-sm-3">
                     <label class="form-label">Nombres</label>
                     <input formControlName="name" type="text" name="name" class="form-control"
-                            required>
+                           required>
                     <div class="invalid-feedback">Por favor digite los nombre</div>
                   </div>
 
                   <div class="col-sm-3">
                     <label class="form-label">Apellidos</label>
                     <input formControlName="last_name" type="text" name="name" class="form-control"
-                            required>
+                           required>
                     <div class="invalid-feedback">Por favor digite los apellidos</div>
                   </div>
 
                   <div class="col-sm-3">
                     <label class="form-label">Número celular</label>
                     <input formControlName="phone" type="text" name="number" class="form-control"
-                            required>
+                           required>
                     <div class="invalid-feedback">Por favor digite el celular</div>
                   </div>
 
                   <div class="col-sm-3">
                     <label class="form-label">Barrio</label>
                     <input formControlName="neighborhood" type="text" name="name" class="form-control"
-                            required>
+                           required>
                     <div class="invalid-feedback">Por favor digite el barrio</div>
                   </div>
 
                   <div class="col-sm-3">
                     <label class="form-label">Dirección</label>
                     <input formControlName="address" type="text" name="name" class="form-control"
-                            required>
+                           required>
                     <div class="invalid-feedback">Por favor digite la dirección</div>
                   </div>
 
                   <div class="col-sm-3">
                     <label class="form-label">Ciudad</label>
                     <input formControlName="city" type="text" name="name" class="form-control"
-                            required>
+                           required>
                     <div class="invalid-feedback">Por favor digite la ciudad</div>
                   </div>
 
                   <div class="col-sm-3">
                     <label class="form-label">Profesión</label>
                     <input formControlName="profession" type="text" name="name" class="form-control"
-                            required>
+                           required>
                     <div class="invalid-feedback">Por favor digite la profesión</div>
                   </div>
 
                   <div class="col-sm-3">
                     <label class="form-label">Notas</label>
-                    <input formControlName="notes" type="text" name="name" class="form-control"
-                            required>
+                    <input formControlName="notes" type="text" name="name" class="form-control" />
                     <div class="invalid-feedback">Por favor digite la nota</div>
                   </div>
-                  
+
                   <div class="col-sm-3">
                     <label class="form-label">Calificación</label>
-                    <input formControlName="type" type="text" name="name" class="form-control"
-                            required>
+                    <input formControlName="type" type="text" name="name" class="form-control" />
                     <div class="invalid-feedback">Por favor digite la calificación</div>
                   </div>
 

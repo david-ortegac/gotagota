@@ -32,6 +32,7 @@ import { IonicModule } from '@ionic/angular';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DropdownModule } from 'primeng/dropdown';
+import {LoansComponent} from "./components/loans/loans.component";
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { DropdownModule } from 'primeng/dropdown';
     SedesComponent,
     RoutesComponent,
     EmployeesComponent,
-    ClientsComponent
+    ClientsComponent,
+    LoansComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +60,8 @@ import { DropdownModule } from 'primeng/dropdown';
     InputTextModule,
     PasswordModule,
     DropdownModule,
-    ReactiveFormsModule,PaginatorModule,
+    ReactiveFormsModule,
+    PaginatorModule,
     NgxPaginationModule,
     ProgressSpinnerModule,
     ButtonModule,

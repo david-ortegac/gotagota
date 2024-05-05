@@ -18,10 +18,10 @@ class ClientFactory extends Factory
     public function definition()
     {
         return [
-            'route_id' => $this->faker->randomElement(['1','2','3']),
+            'document_type' => $this->faker->randomElement(['CC', 'TI', 'CE']),
+            'document_number' => $this->faker->unique()->randomNumber(),
             'name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
-            'email' => $this->faker->unique()->safeEmail,
             'phone' => $this->faker->phoneNumber,
             'neighborhood' => $this->faker->word,
             'address' => $this->faker->address,

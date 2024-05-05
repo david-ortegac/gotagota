@@ -6,7 +6,7 @@ use App\Models\Client;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class ClientPolicy
+class ClientPolicy0
 {
     /**
      * Determine whether the user can view any models.
@@ -21,7 +21,7 @@ class ClientPolicy
      */
     public function view(User $user, Client $client): bool
     {
-        //
+
     }
 
     /**

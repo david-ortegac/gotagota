@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * Class Client
  *
  * @property $id
- * @property $route_id
  * @property $document_type
  * @property $document_number
  * @property $name
@@ -45,7 +44,6 @@ class Client extends Model
     protected $hidden = [
         'created_by',
         'modified_by',
-        'route_id',
     ];
 
     /**
@@ -56,7 +54,6 @@ class Client extends Model
     protected $fillable = [
         'document_type',
         'document_number',
-        'route_id',
         'name',
         'last_name',
         'email',
@@ -74,36 +71,37 @@ class Client extends Model
     /**
      * @return HasMany
      */
-    public function loans()
+    public function loans(): HasMany
     {
         return $this->hasMany('App\Models\Loan', 'client_id', 'id');
     }
 
     /**
      * @return HasOne
-     */
-    public function route()
-    {
-        return $this->hasOne('App\Models\Route', 'id', 'route_id')
-        ->select(array('number'));
-    }
-
-    /**
+     *
+     * public function route()
+     * {
+     * return $this->hasOne('App\Models\Route', 'id', 'route_id')
+     * ->select(array('number'));
+     * }
+     * /
+     *
+     * /**
      * @return HasOne
      */
-    public function createdBy()
+    public function createdBy(): HasOne
     {
         return $this->hasOne('App\Models\User', 'id', 'created_by')
-        ->select(array('name','email'));
+            ->select(array('name', 'email'));
     }
 
     /**
      * @return HasOne
      */
-    public function modifiedBy()
+    public function modifiedBy(): HasOne
     {
         return $this->hasOne('App\Models\User', 'id', 'modified_by')
-        ->select(array('name','email'));
+            ->select(array('name', 'email'));
     }
 
 }
