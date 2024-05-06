@@ -40,8 +40,6 @@ class Route extends Model
     protected $hidden = [
         'created_by',
         'modified_by',
-        'updated_at',
-        'created_at',
         'sede_id'
     ];
 
@@ -65,13 +63,6 @@ class Route extends Model
         return $this->hasMany('App\Models\Client', 'route_id', 'id');
     }
 
-    /**
-     * @return HasMany
-     */
-    public function employees(): HasMany
-    {
-        return $this->hasMany('App\Models\Employee', 'route_id', 'id');
-    }
 
     /**
      * @return HasOne

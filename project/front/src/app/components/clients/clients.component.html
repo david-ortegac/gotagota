@@ -30,7 +30,7 @@
 
                   <div class="col-sm-3">
                     <label class="form-label">Número de documento</label>
-                    <input formControlName="document_number" type="text" class="form-control" />
+                    <input formControlName="document_number" type="text" class="form-control"/>
                   </div>
 
                   <div class="col-sm-3">
@@ -84,13 +84,13 @@
 
                   <div class="col-sm-3">
                     <label class="form-label">Notas</label>
-                    <input formControlName="notes" type="text" name="name" class="form-control" />
+                    <input formControlName="notes" type="text" name="name" class="form-control"/>
                     <div class="invalid-feedback">Por favor digite la nota</div>
                   </div>
 
                   <div class="col-sm-3">
                     <label class="form-label">Calificación</label>
-                    <input formControlName="type" type="text" name="name" class="form-control" />
+                    <input formControlName="type" type="text" name="name" class="form-control"/>
                     <div class="invalid-feedback">Por favor digite la calificación</div>
                   </div>
 
@@ -191,9 +191,9 @@
                 <td>{{ client.notes }}</td>
                 <td>{{ client.type }}</td>
                 <td>{{ client.created_by.name }}</td>
-                <td>{{ client.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td>{{ client.created_at | date:'dd/MM/yyyy HH:mm:ss' }}</td>
                 <td>{{ client.modified_by.name }}</td>
-                <td>{{ client.updated_at | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td>{{ client.updated_at | date:'dd/MM/yyyy HH:mm:ss' }}</td>
                 <td>
                   <p-button (click)="updateClient(client)" icon="pi pi-check"></p-button>
                 </td>
