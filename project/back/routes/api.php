@@ -31,9 +31,9 @@ Route::get('/sedes_all', [SedeController::class, 'getAll'])->name('sedes.getAll'
 Route::resource('/routes', RouteController::class)->middleware(['auth:sanctum']);
 Route::get('/routes_all', [RouteController::class, 'getAll'])->name('routes.getAll')->middleware(['auth:sanctum']);
 
-Route::resource('/clients', ClientController::class)->middleware(['auth:sanctum']);
-Route::get('/clients_all', [ClientController::class, 'getAll'])->name('clients.getAll')->middleware(['auth:sanctum']);
-Route::get('/clients/search_by_document/{document}', [ClientController::class, 'searchByDocumentNumber'])->name('clients.searchByDocumentNumber')->middleware(['auth:sanctum']);
+Route::resource('/clientes', ClientController::class)->middleware(['auth:sanctum']);
+Route::get('/clientes_all', [ClientController::class, 'getAll'])->name('clients.getAll')->middleware(['auth:sanctum']);
+Route::get('/clientes/search_by_document/{document}', [ClientController::class, 'searchByDocumentNumber'])->name('clients.searchByDocumentNumber')->middleware(['auth:sanctum']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

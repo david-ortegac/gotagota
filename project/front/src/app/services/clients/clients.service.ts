@@ -1,10 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { decrypt } from 'src/app/utils/util-encrypt';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { Pageable } from 'src/app/utils/pageable';
 import { Client } from 'src/app/models/Client';
+import { Pageable } from 'src/app/utils/pageable';
+import { decrypt } from 'src/app/utils/util-encrypt';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class ClientsService {
 
   getAllClients(page: number): Observable<Pageable<Client[]>> {
     this.validateAndDecryptToken();
-    return this.httpClient.get<Pageable<Client[]>>(this.url + 'clients?page=' + page, {
+    return this.httpClient.get<Pageable<Client[]>>(this.url + 'clientes?page=' + page, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.tk}`
@@ -38,7 +38,7 @@ export class ClientsService {
 
   getAllClientsWithoutPaginated(): Observable<Client[]> {
     this.validateAndDecryptToken();
-    return this.httpClient.get<Client[]>(this.url + 'clients_all', {
+    return this.httpClient.get<Client[]>(this.url + 'clientes_all', {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.tk}`
@@ -48,7 +48,7 @@ export class ClientsService {
 
   createClient(client: Client): Observable<Pageable<Client>> {
     this.validateAndDecryptToken();
-    return this.httpClient.post<Pageable<Client>>(this.url + 'clients', client,
+    return this.httpClient.post<Pageable<Client>>(this.url + 'clientes', client,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export class ClientsService {
   updateClient(client: Client): Observable<Client> {
     console.log(client)
     this.validateAndDecryptToken();
-    return this.httpClient.patch<Client>(this.url + 'clients/' + client.id, client,
+    return this.httpClient.patch<Client>(this.url + 'clientes/' + client.id, client,
     {
       headers: {
         'Content-Type': 'application/json',

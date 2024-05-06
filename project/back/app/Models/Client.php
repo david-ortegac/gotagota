@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -29,7 +28,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property $created_at
  * @property $updated_at
  * @property Loan[] $loans
- * @property Route $route
  * @property User $createdBy
  * @property User $modifiedBy
  * @package App
@@ -76,17 +74,8 @@ class Client extends Model
         return $this->hasMany('App\Models\Loan', 'client_id', 'id');
     }
 
+
     /**
-     * @return HasOne
-     *
-     * public function route()
-     * {
-     * return $this->hasOne('App\Models\Route', 'id', 'route_id')
-     * ->select(array('number'));
-     * }
-     * /
-     *
-     * /**
      * @return HasOne
      */
     public function createdBy(): HasOne

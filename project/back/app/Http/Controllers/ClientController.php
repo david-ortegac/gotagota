@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreClientRequest;
+use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Validation\Rule;
 
 /**
  * Class ClientController
@@ -91,7 +93,7 @@ class ClientController extends Controller
             $client->created_by = $client->createdBy;
             $client->modified_by = $client->modifiedBy;
             return response()->json(
-                 $client, Response::HTTP_OK
+                $client, Response::HTTP_OK
             );
         } else {
             return response()->json([
@@ -110,7 +112,7 @@ class ClientController extends Controller
             unset($client->created_at);
             unset($client->updated_at);
             return response()->json(
-                 $client, Response::HTTP_OK
+                $client, Response::HTTP_OK
             );
         } else {
             return response()->json([
@@ -127,15 +129,14 @@ class ClientController extends Controller
      * @param Client $client
      * @return JsonResponse
      */
-    public function update(Request $request, Client $client): JsonResponse
+    public function update(UpdateClientRequest $request, Client $client): JsonResponse
     {
-        $client = Client::findOrFail($request->id);
-       // Rule::unique('clients')->ignore($client->id);
+        $client = Client::find($request->id);
 
         if (isset($client)) {
-            $client->route_id = $request->route_id;
             $this->extracted($request, $client);
             $client->modified_by = Auth()->User()->id;
+            Rule::unique('clients')->ignore($client);
 
             $client->save();
 
@@ -146,9 +147,9 @@ class ClientController extends Controller
                 'status' => "Cliente actualizado con exito",
                 'data' => $client,
             ], Response::HTTP_OK);
-        }else{
+        } else {
             return response()->json([
-               'status' => Response::HTTP_BAD_REQUEST,
+                'status' => Response::HTTP_BAD_REQUEST,
                 'error' => 'No existe el cliente para actualizar',
             ]);
         }
