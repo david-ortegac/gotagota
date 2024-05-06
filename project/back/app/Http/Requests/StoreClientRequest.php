@@ -28,7 +28,7 @@ class StoreClientRequest extends FormRequest
     {
         return [
             'document_type' => 'required',
-            'document_number' => 'required',
+            'document_number' => 'required|unique:clients',
             'name' => 'required',
             'last_name' => 'required',
             'phone' => 'required',
@@ -51,7 +51,9 @@ class StoreClientRequest extends FormRequest
     {
         return [
             "document_type" => "El tipo de documento es requerido",
-            "document_number" => "El número de documento es requerido",
+            "document_number" => "El número de documento ingresado ya existe",
+            "route_id" => "La ruta es requerida",
+
             "name.required" => "El nombre es requerido",
             "last_name.required" => "El apellido es requerido",
             "phone.required" => "El telefono es requerido",

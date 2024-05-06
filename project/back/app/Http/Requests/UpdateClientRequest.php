@@ -52,13 +52,14 @@ class UpdateClientRequest extends FormRequest
         return [
             "document_type"=>"El tipo de documento es requerido",
             "document_number"=>"El número de documento es requerido",
-            "name.required" =>"El nombre es requerido",
-            "last_name.required" =>"El apellido es requerido",
-            "phone.required"=>"El telefono es requerido",
-            "neighborhood.required"=>"El barrio es requerido",
-            "address.required"=>"La dirección es requerida",
-            "city.required"=>"La ciudad es requerida",
-            "profession.required"=>"La profesión es requerida",
+            "name" =>"El nombre es requerido",
+            "last_name" =>"El apellido es requerido",
+            "phone"=>"El telefono es requerido",
+            "neighborhood"=>"El barrio es requerido",
+            "address"=>"La dirección es requerida",
+            "city"=>"La ciudad es requerida",
+            "profession"=>"La profesión es requerida",
+
         ];
     }
 }

@@ -20,7 +20,7 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('document_type');
-            $table->string('document_number');
+            $table->string('document_number')->unique();
             $table->string('name');
             $table->string('last_name');
             $table->string('phone');
