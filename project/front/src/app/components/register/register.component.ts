@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Register } from 'src/app/models/Register';
 import { RegisterService } from 'src/app/services/register/register.service';
+import Swal from 'sweetalert2'
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -12,7 +14,10 @@ export class RegisterComponent {
 
   registerForm: FormGroup;
 
-  constructor(private registerService: RegisterService) {
+  constructor(
+    private registerService: RegisterService,
+    private router: Router,
+    ) {
     this.registerForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(3)]),
       email: new FormControl('', [Validators.email, Validators.required]),
@@ -30,13 +35,16 @@ export class RegisterComponent {
     }
 
     this.registerService.register(register).subscribe(res=>{
-
-      
-    }, 
-      error=>{
-
-    })
-    
+      console.log(res);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Usuario Registrado, espera por autorización para ingreso!',
+          showConfirmButton: false,
+          timer: 2500
+        });
+        this.router.navigate(["/index"])
+    });
   }
 
 }

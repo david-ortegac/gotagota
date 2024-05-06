@@ -28,8 +28,6 @@ class ClientController extends Controller
         foreach ($clients as $client) {
             $client->created_by = $client->createdBy;
             $client->modified_by = $client->modifiedBy;
-            unset($client->created_at);
-            unset($client->updated_at);
         }
         return response()->json($clients, Response::HTTP_OK);
     }

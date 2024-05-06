@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Class Sede
@@ -19,13 +22,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property User $createdBy
  * @property User $modifiedBy
  * @package App
- * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin Builder
  */
 class Sede extends Model
 {
     use HasFactory;
 
-    static $rules = [
+    static array $rules = [
         'name' => 'required',
     ];
 
@@ -44,29 +47,29 @@ class Sede extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function routes()
+    public function routes(): HasMany
     {
         return $this->hasMany('App\Models\Route', 'sede_id', 'id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function modifiedBy()
+    public function modifiedBy(): HasOne
     {
         return $this->hasOne('App\Models\User', 'id', 'modified_by')
             ->select(array('name', 'email'));
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function createdBy()
+    public function createdBy(): HasOne
     {
         return $this->hasOne('App\Models\User', 'id', 'created_by')
-            ->select(array('name', 'email'));;
+            ->select(array('name', 'email'));
     }
 
 }

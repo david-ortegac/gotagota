@@ -3,7 +3,7 @@ import { ModifiedBy } from "./audit/ModifiedBy";
 
 export interface Client {
     id?: number;
-    document_type?: number;
+    document_type?: string;
     document_number?: string;
     name?: string;
     last_name?: string;

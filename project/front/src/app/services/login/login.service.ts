@@ -34,12 +34,12 @@ export class LoginService {
 
   logout() {
     this.validateAndDecryptToken();
-    return this.httpClient.post(this.url + ('logout'), {
+    return this.httpClient.post(this.url + 'logout', this.tk,{
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': "Bearer " + this.tk
+        'Authorization': `Bearer ${this.tk}`
       }
-    });
+    })
   }
 
 }
