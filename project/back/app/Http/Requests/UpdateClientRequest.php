@@ -59,6 +59,7 @@ class UpdateClientRequest extends FormRequest
             "address"=>"La dirección es requerida",
             "city"=>"La ciudad es requerida",
             "profession"=>"La profesión es requerida",
+
         ];
     }
 }

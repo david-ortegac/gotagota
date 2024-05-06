@@ -79,6 +79,7 @@ class Client extends Model
      * @return HasOne
      */
     public function createdBy(): HasOne
+
     {
         return $this->hasOne('App\Models\User', 'id', 'created_by')
             ->select(array('name', 'email'));

@@ -31,9 +31,7 @@ class ClientController extends Controller
             unset($client->created_at);
             unset($client->updated_at);
         }
-
         return response()->json($clients, Response::HTTP_OK);
-
     }
 
     /**
@@ -51,7 +49,6 @@ class ClientController extends Controller
             unset($client->created_at);
             unset($client->updated_at);
         }
-
         return response()->json($clients, Response::HTTP_OK);
     }
 
@@ -111,6 +108,7 @@ class ClientController extends Controller
             $client->modified_by = $client->modifiedBy;
             unset($client->created_at);
             unset($client->updated_at);
+
             return response()->json(
                 $client, Response::HTTP_OK
             );
@@ -134,6 +132,7 @@ class ClientController extends Controller
         $client = Client::find($request->id);
 
         if (isset($client)) {
+
             $this->extracted($request, $client);
             $client->modified_by = Auth()->User()->id;
             Rule::unique('clients')->ignore($client);

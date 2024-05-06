@@ -21,14 +21,12 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property Client $client
  * @property SpreadSheet[] $spreadSheets
- * @property User $user
- * @property User $user
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Loan extends Model
 {
-    
+
     static $rules = [
 		'client_id' => 'required',
 		'amount' => 'required',
@@ -66,7 +64,7 @@ class Loan extends Model
     {
         return $this->hasOne('App\Models\Client', 'id', 'client_id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -74,7 +72,7 @@ class Loan extends Model
     {
         return $this->hasMany('App\Models\SpreadSheet', 'loan_id', 'id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -82,7 +80,7 @@ class Loan extends Model
     {
         return $this->hasOne('App\Models\User', 'id', 'created_by');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -90,6 +88,6 @@ class Loan extends Model
     {
         return $this->hasOne('App\Models\User', 'id', 'modified_by');
     }
-    
+
 
 }
