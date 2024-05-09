@@ -1,4 +1,4 @@
-<section class="section">
+<div class="section">
     <div class="row">
         <div class="col-lg-12">
 
@@ -23,12 +23,11 @@
 
                                 <form [formGroup]="form" class="row g-3 needs-validation">
                                     <div class="col-3">
-                                        <p-dropdown formControlName="sede" [(ngModel)]="selectedSede" [options]="sedes" optionLabel="name" [showClear]="true" placeholder="Seleccione una sede"></p-dropdown>
+                                        <p-dropdown formControlName="sede" [options]="sedes" optionLabel="name" [showClear]="true" placeholder="Seleccione una sede"></p-dropdown>
                                     </div>
                                     <div class="col-9">
                                         <label class="form-label">Digite el nombre de la ruta</label>
-                                        <input formControlName="number" type="text" name="number" class="form-control"
-                                            id="yourId" required>
+                                        <input formControlName="name" type="text" name="number" class="form-control" required>
                                         <div class="invalid-feedback">Por favor digite el nombre</div>
                                     </div>
 
@@ -70,7 +69,7 @@
                             <tr >
                                 <td>{{ route.id }}</td>
                                 <td>{{ route.sede.name }}</td>
-                                <td>{{ route.number }}</td>
+                                <td>{{ route.name }}</td>
                                 <td>{{ route.created_by.name }}</td>
                                 <td>{{ route.created_at | date:'dd/MM/yyyy HH:mm:ss' }}</td>
                                 <td>{{ route.modified_by.name }}</td>
@@ -92,4 +91,4 @@
 
         </div>
     </div>
-</section>
+</div>

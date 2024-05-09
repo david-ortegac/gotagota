@@ -14,7 +14,7 @@ export class RoutesService {
   url: string = "";
   tk = "";
 
-  
+
   validateAndDecryptToken() {
     try {
       this.tk = decrypt(sessionStorage.getItem('tk')!);
@@ -46,7 +46,7 @@ export class RoutesService {
   createRoute(route: Route): Observable<Route> {
     this.validateAndDecryptToken();
     const saveRoute={
-      number: route.number,
+      name: route.name,
       sede_id: route.sede?.id
     }
     console.log(saveRoute)
@@ -64,7 +64,7 @@ export class RoutesService {
     console.log(route)
     const saveRoute={
       id: route.id,
-      number: route.number,
+      name: route.name,
       sede_id: route.sede?.id
     }
     this.validateAndDecryptToken();

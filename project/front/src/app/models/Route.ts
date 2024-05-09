@@ -5,7 +5,7 @@ import { ModifiedBy } from "./audit/ModifiedBy";
 export interface Route {
     id?: number;
     sede?: Sede;
-    number?: string;
+    name?: string;
     created_at?: Date;
     updated_at?: Date;
     created_by?: CreatedBy;
