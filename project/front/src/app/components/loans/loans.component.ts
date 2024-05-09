@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {ClientsService} from "../../services/clients/clients.service";
+import {RoutesService} from "../../services/routes/routes.service";
+import {Route} from "../../models/Route";
 
 @Component({
   selector: 'app-loans',
@@ -7,8 +10,17 @@ import { Component } from '@angular/core';
 })
 export class LoansComponent  {
   search: boolean = false;
+  routes: Route[]=[];
 
-  constructor() { }
+  constructor(
+    private readonly clientsService: ClientsService,
+    private readonly routesService: RoutesService,
+  ) {
+    this.routesService.getAllRoutesWithoutPaged().subscribe(res=>{
+      console.log(res)
+      this.routes = res;
+    })
+  }
 
   openSearchByDocument() {
     this.search = true;
