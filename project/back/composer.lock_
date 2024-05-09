@@ -1062,6 +1062,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/91e2b9e218afa4e5c377510faa11957042831ba3",
                 "reference": "91e2b9e218afa4e5c377510faa11957042831ba3",
+
                 "shasum": ""
             },
             "require": {
@@ -1314,6 +1315,7 @@
                 "source": "https://github.com/laravel/prompts/tree/v0.1.21"
             },
             "time": "2024-04-30T12:46:16+00:00"
+
         },
         {
             "name": "laravel/sanctum",
@@ -3412,7 +3414,9 @@
                     "type": "tidelift"
                 }
             ],
+
             "time": "2024-04-18T09:22:46+00:00"
+
         },
         {
             "name": "symfony/css-selector",
@@ -3548,6 +3552,7 @@
         },
         {
             "name": "symfony/error-handler",
+
             "version": "v6.4.7",
             "source": {
                 "type": "git",
@@ -5134,7 +5139,6 @@
                 }
             ],
             "time": "2024-04-18T09:32:20+00:00"
-        },
         {
             "name": "symfony/string",
             "version": "v7.0.7",

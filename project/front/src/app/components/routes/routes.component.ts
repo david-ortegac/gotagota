@@ -35,7 +35,7 @@ export class RoutesComponent {
     this.getAllRoutes(0);
     this.form = new FormGroup({
       sede: new FormControl(''),
-      number: new FormControl('', [Validators.minLength(3), Validators.required]),
+      name: new FormControl('', [Validators.minLength(3), Validators.required]),
     });
   }
 
@@ -49,21 +49,21 @@ export class RoutesComponent {
         this.sedes.push(sedeDecrypt);
       });
     });
-    console.log(this.sedes)
   }
 
   getAllRoutes(page: number) {
     this.loading = true;
     this.routes = [];
     this.routesService.getAllRoutes(page || 0).subscribe(res => {
+      console.log(res)
       res.data.forEach(el => {
         const routeDecrypt = {
           id: el.id,
           sede:{
             id:el.sede?.id,
-            name:decrypt(el.sede?.name!)
+            name: decrypt(el.sede?.name!)
           },
-          number: decrypt(el.number!),
+          name: decrypt(el.name!),
           created_at: el.created_at,
           updated_at: el.updated_at,
           created_by: el.created_by,
@@ -82,7 +82,7 @@ export class RoutesComponent {
   createNewRoute() {
     const route: Route = {
       sede: this.form.get('sede')?.value,
-      number: encrypt(this.form.get('number')?.value)
+      name: encrypt(this.form.get('name')?.value)
     }
     this.routesService.createRoute(route).subscribe(() => {
       this.loading = true;
@@ -95,7 +95,7 @@ export class RoutesComponent {
   }
 
   update() {
-    this.letUpdateRoute.number = encrypt(this.form.get('number')?.value);
+    this.letUpdateRoute.name = encrypt(this.form.get('name')?.value);
     this.letUpdateRoute.sede = this.form.get('sede')?.value
 
     this.routesService.updateRoute(this.letUpdateRoute).subscribe(() => {
@@ -111,7 +111,7 @@ export class RoutesComponent {
   updateRoute(route: Route) {
     this.openSaveUpdate = true;
     this.updateButtom = true;
-    this.form.get('number')?.setValue(route.number);
+    this.form.get('name')?.setValue(route.name);
     this.form.get('sede')?.setValue(route.sede);
     this.updateButtom = true;
     this.letUpdateRoute = route;

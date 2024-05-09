@@ -26,7 +26,7 @@ class UpdateRouteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'number' => 'required',
+            'name' => 'required',
             'sede_id' => "required",
         ];
     }
@@ -42,7 +42,7 @@ class UpdateRouteRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "number" => "El número y/o nombre de la ruta es requerido",
+            "name" => "El nombre de la ruta es requerido",
             "sede_id" => "El Id de la sede es requerido"
         ];
     }

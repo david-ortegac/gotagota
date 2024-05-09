@@ -61,7 +61,7 @@ class RouteController extends Controller
     {
         $route = new Route();
         $route->sede_id = $request->sede_id;
-        $route->number = $request->number;
+        $route->name = $request->name;
         $route->created_by = Auth()->User()->id;
         $route->modified_by = Auth()->User()->id;
 
@@ -107,7 +107,7 @@ class RouteController extends Controller
     public function update(UpdateRouteRequest $request, Route $route): JsonResponse
     {
         $route->sede_id = $request->sede_id;
-        $route->number = $request->number;
+        $route->name = $request->name;
         $route->modified_by = Auth()->User()->id;
 
         $route->update();

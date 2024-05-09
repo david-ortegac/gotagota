@@ -18,9 +18,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.profileService.profile().subscribe(res => {
-      if (res.userData.id != null)
-        this.router.navigate(["/index"]);
+    this.profileService.profile().subscribe(() => {
+      //if (res.userData.id != null)
+        //this.router.navigate(["/index"]);
     }, () => {
       this.router.navigate(["/"]);
       Swal.fire({

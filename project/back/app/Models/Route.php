@@ -32,7 +32,7 @@ class Route extends Model
 
     static array $rules = [
         'sede_id' => 'required',
-        'number' => 'required'
+        'name' => 'required'
     ];
 
     protected $perPage = 20;
@@ -50,7 +50,7 @@ class Route extends Model
      */
     protected $fillable = [
         'sede_id',
-        'number',
+        'name',
         'created_by',
         'modified_by',
     ];
