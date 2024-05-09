@@ -16,7 +16,6 @@ return new class extends Migration
             $table->date('generationDate');
             $table->date('loandDate');
             $table->foreignId('loan_id')->references('id')->on('loans');
-            $table->foreignId('route_id')->references('id')->on('routes');
             $table->integer('order');
             $table->date('date');
             $table->decimal('pay');

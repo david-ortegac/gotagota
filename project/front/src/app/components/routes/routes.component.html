@@ -23,7 +23,13 @@
 
                                 <form [formGroup]="form" class="row g-3 needs-validation">
                                     <div class="col-3">
-                                        <p-dropdown formControlName="sede" [options]="sedes" optionLabel="name" [showClear]="true" placeholder="Seleccione una sede"></p-dropdown>
+                                        <p-dropdown
+                                          formControlName="sede"
+                                          [options]="sedes"
+                                          optionLabel="name"
+                                          [showClear]="true"
+                                          placeholder="Seleccione una sede"
+                                        ></p-dropdown>
                                     </div>
                                     <div class="col-9">
                                         <label class="form-label">Digite el nombre de la ruta</label>

@@ -13,6 +13,6 @@ class SedeSeeder extends Seeder
      */
     public function run(): void
     {
-        $sede = Sede::factory()->create();
+        $sede = Sede::factory()->count(3)->create();
     }
 }

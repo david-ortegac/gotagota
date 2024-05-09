@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'David',
+            'name' => 'David Ortega',
             'email' => 'davidortegacadena@gmail.com',
             'password' => bcrypt('12345678'),
             'status' => true
@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SedeSeeder::class);
         $this->call(RouteSeeder::class);
         $this->call(ClientSeeder::class);
+        $this->call(LoansSeeder::class);
 
     }
 }

@@ -24,10 +24,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class SpreadSheet extends Model
 {
-    
+
     static $rules = [
 		'loan_id' => 'required',
-		'employee_id' => 'required',
 		'order' => 'required',
 		'date' => 'required',
 		'pay' => 'required',
@@ -41,17 +40,9 @@ class SpreadSheet extends Model
      *
      * @var array
      */
-    protected $fillable = ['loan_id','employee_id','order','date','pay','amount'];
+    protected $fillable = ['loan_id','order','date','pay','amount'];
 
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function employee()
-    {
-        return $this->hasOne('App\Models\Employee', 'id', 'employee_id');
-    }
-    
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -59,6 +50,6 @@ class SpreadSheet extends Model
     {
         return $this->hasOne('App\Models\Loan', 'id', 'loan_id');
     }
-    
+
 
 }

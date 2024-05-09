@@ -24,7 +24,6 @@ export class RoutesComponent {
   loading: boolean = false;
   updateButtom: boolean = false;
   letUpdateRoute: Route = {}
-  selectedSede: Route={}
 
   constructor(
     private readonly routesService: RoutesService,

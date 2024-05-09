@@ -50,6 +50,7 @@ export class ClientsComponent {
     this.getAllClients(0);
   }
 
+
   getAllClients(page: number) {
     this.loading = true;
     this.clients = [];
@@ -112,7 +113,6 @@ export class ClientsComponent {
     this.loading = false;
   }
 
-
   update() {
     const docType: documentType = this.form.get('document_type')?.value
     this.letUpdateClient.document_type = docType.name;
@@ -126,7 +126,7 @@ export class ClientsComponent {
     this.letUpdateClient.profession = encrypt(this.form.get('profession')?.value);
     this.letUpdateClient.notes = encrypt(this.form.get('notes')?.value);
     this.letUpdateClient.type = encrypt(this.form.get('type')?.value);
-console.log(this.letUpdateClient)
+    console.log(this.letUpdateClient)
     this.clientsService.updateClient(this.letUpdateClient).subscribe(() => {
       this.loading = true;
       this.getAllClients(0);
@@ -175,10 +175,10 @@ console.log(this.letUpdateClient)
 
   createDocumentTypes() {
     this.documentTypes = [
-      {name: 'CC', code:'CC' },
-      {name: 'CE', code:'CE' },
-      {name: 'PASS', code:'PASS' },
-      {name: 'TI', code:'TI' },
+      {name: 'CC', code: 'CC'},
+      {name: 'CE', code: 'CE'},
+      {name: 'PASS', code: 'PASS'},
+      {name: 'TI', code: 'TI'},
     ]
   }
 
