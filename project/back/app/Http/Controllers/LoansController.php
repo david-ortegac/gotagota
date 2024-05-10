@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Loans;
+use App\Models\Loan;
 use App\Http\Requests\StoreLoansRequest;
 use App\Http\Requests\UpdateLoansRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class LoansController extends Controller
 {
@@ -13,7 +14,9 @@ class LoansController extends Controller
      */
     public function index()
     {
-        //
+        $loans = Loan::paginate();
+
+        return response()->json($loans, Response::HTTP_OK);
     }
 
     /**
@@ -35,9 +38,28 @@ class LoansController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Loans $loans)
+    public function show(int $routeId)
     {
-        //
+        $loans = Loan::where('route_id', $routeId)->get();
+
+        if (isset($loans)) {
+            foreach ($loans as $loan) {
+                $loan->route = $loan->route;
+                $loan->client = $loan->client;
+                $loan->created_by = $loan->createdBy;
+                $loan->modified_by = $loan->modifiedBy;
+            }
+            return response()->json(
+
+                $loans, Response::HTTP_OK
+            );
+        } else {
+            return response()->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'error' => 'No existen registros para retornar',
+            ]);
+        }
+
     }
 
     /**

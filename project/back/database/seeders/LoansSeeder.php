@@ -13,6 +13,6 @@ class LoansSeeder extends Seeder
      */
     public function run(): void
     {
-        $loan = Loan::factory()->count(15)->create();
+        $loan = Loan::factory()->count(1500)->create();
     }
 }

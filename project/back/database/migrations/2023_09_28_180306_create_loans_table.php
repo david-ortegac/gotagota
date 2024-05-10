@@ -33,6 +33,7 @@ return new class extends Migration
             $table->date('lastPayment'); // ultimo pago
             $table->date('startDate'); // fecha inicio
             $table->date('finalDate'); // fecha final
+            $table->boolean('status')->default(true); // estado del credito para reencauche
 
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');

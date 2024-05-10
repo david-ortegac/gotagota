@@ -47,15 +47,39 @@ class Loan extends Model
      *
      * @var array
      */
-    protected $fillable = ['route_id', 'client_id', 'amount', 'paymentDays', 'paymentType', 'deposit', 'lastInstallment', 'remainingBalance', 'remainingAmount', 'daysPastDue', 'lastPayment', 'startDate', 'finalDate', 'created_by', 'modified_by'];
+    protected $fillable = [
+        'route_id',
+        'client_id',
+        'amount',
+        'paymentDays',
+        'paymentType',
+        'deposit',
+        'lastInstallment',
+        'remainingBalance',
+        'remainingAmount',
+        'daysPastDue',
+        'lastPayment',
+        'startDate',
+        'finalDate',
+        'status',
+        'created_by',
+        'modified_by'
+    ];
 
+    protected $hidden=[
+        'route_id',
+        'client_id',
+        'created_by',
+        'modified_by'
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function client()
     {
-        return $this->belongsTo(\App\Models\Client::class, 'client_id', 'id');
+        return $this->belongsTo(\App\Models\Client::class, 'client_id', 'id')
+            ->select(array('id', 'name', 'last_name'));
     }
 
     /**
@@ -63,7 +87,8 @@ class Loan extends Model
      */
     public function createdBy()
     {
-        return $this->belongsTo(\App\Models\User::class, 'created_by', 'id');
+        return $this->belongsTo(\App\Models\User::class, 'created_by', 'id')
+            ->select(array('name', 'email'));
     }
 
     /**
@@ -71,7 +96,8 @@ class Loan extends Model
      */
     public function modifiedBy()
     {
-        return $this->belongsTo(\App\Models\User::class, 'modified_by', 'id');
+        return $this->belongsTo(\App\Models\User::class, 'modified_by', 'id')
+            ->select(array('name', 'email'));
     }
 
     /**
@@ -79,7 +105,8 @@ class Loan extends Model
      */
     public function route()
     {
-        return $this->belongsTo(\App\Models\Route::class, 'route_id', 'id');
+        return $this->belongsTo(\App\Models\Route::class, 'route_id', 'id')
+            ->select(array('id', 'name'));
     }
 
     /**

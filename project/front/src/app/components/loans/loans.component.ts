@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ClientsService} from "../../services/clients/clients.service";
 import {RoutesService} from "../../services/routes/routes.service";
 import {Route} from "../../models/Route";
@@ -7,47 +7,53 @@ import {SedesService} from "../../services/sedes/sedes.service";
 import {decrypt} from "../../utils/util-encrypt";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {DropdownChangeEvent} from "primeng/dropdown";
+import {LoansService} from "../../services/loans/loans.service";
+import {Loan} from "../../models/Loan";
 
 @Component({
   selector: 'app-loans',
   templateUrl: './loans.component.html',
   styleUrls: ['./loans.component.css'],
 })
-export class LoansComponent {
+export class LoansComponent implements OnInit {
   search: boolean = false;
-  sedes: Sede[] = []
   routes: Route[] = [];
+  loans: Loan[]=[]
   formInicial: FormGroup;
+  selectedRouteItem: Route | undefined
+  currentDate: string = "";
 
   constructor(
     private readonly clientsService: ClientsService,
     private readonly routesService: RoutesService,
-    private readonly sedesService: SedesService,
+    private readonly loansService: LoansService
   ) {
     this.formInicial = new FormGroup({
       sede: new FormControl(''),
       name: new FormControl('', [Validators.minLength(3), Validators.required]),
     });
-    this.getAllSedes();
     this.getAllRoutes();
   }
 
-  getAllSedes(){
-    this.sedesService.getAllSedesWithoutPaginated().subscribe(res=>{
-      res.forEach(el=>{
-        const sedeDecrypt={
-          id: el.id,
-          name: decrypt(el.name!)
-        };
-        this.sedes.push(sedeDecrypt);
-      });
-    });
+  ngOnInit(): void {
+    const today = new Date();
+    today.setMonth(today.getMonth() + 1)
+    this.currentDate = +today.getMonth() + '/' + today.getDate() + '/' + today.getFullYear();
+  }
+
+  getAllLoansByRouteId(){
+    this.loansService.getLoansByRouteId(this.selectedRouteItem?.id!).subscribe(res=>{
+      this.loans = res;
+      console.log(this.loans)
+    }, err=>{
+      console.log(err)
+    })
   }
 
   getAllRoutes() {
     this.routesService.getAllRoutesWithoutPaged().subscribe(res => {
-      res.forEach(el=> {
-        const routeDecrypt={
+      res.forEach(el => {
+        const routeDecrypt = {
           id: el.id,
           name: decrypt(el.name!),
           sede: {
@@ -70,7 +76,12 @@ export class LoansComponent {
   }
 
   selectedRoute(event: DropdownChangeEvent) {
-    console.log(event.value)
+    this.selectedRouteItem = event.value;
+    this.getAllLoansByRouteId();
+  }
+
+  dateChanged(event: Date) {
+    console.log(new Date(event))
   }
 }
 
