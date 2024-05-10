@@ -50,6 +50,7 @@ class Loan extends Model
     protected $fillable = [
         'route_id',
         'client_id',
+        'order',
         'amount',
         'paymentDays',
         'paymentType',

@@ -41,9 +41,9 @@ export class LoansComponent implements OnInit {
     this.currentDate = +today.getMonth() + '/' + today.getDate() + '/' + today.getFullYear();
   }
 
-  getAllLoansByRouteId(){
-    this.loansService.getLoansByRouteId(this.selectedRouteItem?.id!).subscribe(res=>{
-      this.loans = res;
+  getAllLoansByRouteId(id: number){
+    this.loansService.getLoansByRouteId(id).subscribe(res=>{
+      this.loans = res.data!;
       console.log(this.loans)
     }, err=>{
       console.log(err)
@@ -77,7 +77,7 @@ export class LoansComponent implements OnInit {
 
   selectedRoute(event: DropdownChangeEvent) {
     this.selectedRouteItem = event.value;
-    this.getAllLoansByRouteId();
+    this.getAllLoansByRouteId(this.selectedRouteItem?.id!);
   }
 
   dateChanged(event: Date) {
