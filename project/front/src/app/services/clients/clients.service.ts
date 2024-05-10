@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Client } from 'src/app/models/Client';
-import { Pageable } from 'src/app/utils/pageable';
-import { decrypt } from 'src/app/utils/util-encrypt';
-import { environment } from 'src/environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {Client} from 'src/app/models/Client';
+import {Pageable} from 'src/app/utils/pageable';
+import {decrypt} from 'src/app/utils/util-encrypt';
+import {environment} from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +46,15 @@ export class ClientsService {
     });
   }
 
+  getClientByDocumentNumber(documentNumber: string): Observable<Client> {
+    return this.httpClient.get<Client>(this.url + 'clientes/search_by_document/' + documentNumber, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.tk}`
+      }
+    })
+  }
+
   createClient(client: Client): Observable<Pageable<Client>> {
     this.validateAndDecryptToken();
     return this.httpClient.post<Pageable<Client>>(this.url + 'clientes', client,
@@ -62,13 +71,13 @@ export class ClientsService {
     console.log(client)
     this.validateAndDecryptToken();
     return this.httpClient.patch<Client>(this.url + 'clientes/' + client.id, client,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.tk}`
-      }
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.tk}`
+        }
 
-    });
+      });
   }
 
 

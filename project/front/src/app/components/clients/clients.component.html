@@ -1,9 +1,9 @@
-<section class="section">
+<div class="section">
   <div class="row">
-    <div class="col-lg-12">
-
+    <p-scrollPanel >
       <div class="card">
         <div class="card-body" style="border-color: black; border: 15px;">
+
           <h5 class="card-title">Clientes</h5>
 
           <div class="mb-3" *ngIf="!openSaveUpdate">
@@ -12,9 +12,8 @@
           <div class="mb-3" *ngIf="openSaveUpdate">
             <button (click)="closeCreateClient()" class="btn btn-danger">Cerrar</button>
           </div>
-          <div *ngIf="openSaveUpdate">
+          <p-scrollPanel [style]="{ width: '100%', height: '400px' }" *ngIf="openSaveUpdate">
             <div class="card mb-3">
-
               <div class="card-body">
 
                 <div class="pt-4 pb-2">
@@ -107,14 +106,21 @@
 
               </div>
             </div>
-          </div>
-          <div style="display: flex; justify-content: center;" *ngIf="loading">
-            <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
-          </div>
+          </p-scrollPanel>
+
+          <ng-container>
+            <p-progressSpinner *ngIf="loading"/>
+          </ng-container>
 
           <!-- Table with stripped rows -->
-
-          <p-table class="table-striped table-condensed " [value]="clients" [tableStyle]="{ 'min-width': '50rem' }">
+          <p-table
+            [lazy]="true"
+            styleClass="p-datatable-striped"
+            [value]="clients"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            [scrollable]="true"
+            scrollHeight="400px"
+          >
 
             <h1 style="text-align: center;">CLIENTES</h1>
 
@@ -201,17 +207,14 @@
               </tr>
             </ng-template>
           </p-table>
-
           <div class="flex-auto">
             <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [totalRecords]="totalRecords"
                          [rows]="row"></p-paginator>
           </div>
-
           <!-- End Table with stripped rows -->
 
         </div>
       </div>
-
-    </div>
+    </p-scrollPanel>
   </div>
-</section>
+</div>

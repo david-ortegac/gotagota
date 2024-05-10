@@ -43,6 +43,16 @@ export class RoutesService {
     });
   }
 
+  getAllRoutesWithoutPaged():Observable<Route[]> {
+    this.validateAndDecryptToken();
+    return this.httpClient.get<Route[]>(this.url+'routes_all', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.tk}`
+      }
+    })
+  }
+
   createRoute(route: Route): Observable<Route> {
     this.validateAndDecryptToken();
     const saveRoute={

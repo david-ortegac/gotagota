@@ -18,7 +18,7 @@ class RouteFactory extends Factory
     public function definition(): array
     {
         return [
-            'sede_id'=>1,
+            'sede_id'=>$this->faker->numberBetween(1,3),
             'name'=>$this->faker->streetName(),
             'created_by' => 1, // Puedes personalizar el valor del creador
             'modified_by' => 1, // Puedes personalizar el valor del modificador

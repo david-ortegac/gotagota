@@ -1,7 +1,6 @@
 <div class="section">
     <div class="row">
         <div class="col-lg-12">
-
             <div class="card">
                 <div class="card-body" style="border-color: black; border: 15px;">
                     <h5 class="card-title">Rutas</h5>
@@ -22,10 +21,16 @@
                                 </div>
 
                                 <form [formGroup]="form" class="row g-3 needs-validation">
-                                    <div class="col-3">
-                                        <p-dropdown formControlName="sede" [options]="sedes" optionLabel="name" [showClear]="true" placeholder="Seleccione una sede"></p-dropdown>
+                                    <div class="col-sm-3">
+                                        <p-dropdown
+                                          formControlName="sede"
+                                          [options]="sedes"
+                                          optionLabel="name"
+                                          [showClear]="true"
+                                          placeholder="Seleccione una sede"
+                                        ></p-dropdown>
                                     </div>
-                                    <div class="col-9">
+                                    <div class="col-sm-9">
                                         <label class="form-label">Digite el nombre de la ruta</label>
                                         <input formControlName="name" type="text" name="number" class="form-control" required>
                                         <div class="invalid-feedback">Por favor digite el nombre</div>

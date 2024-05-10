@@ -17,7 +17,7 @@ class SedeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'Ibagué', // Puedes ajustar esto según tus necesidades
+            'name' => 'U2FsdGVkX1+jbzAnOLBNCNqA+THlEbA7DPt4Bq3ehJY=', // Puedes ajustar esto según tus necesidades
             'created_by' => 1, // Puedes personalizar el valor del creador
             'modified_by' => 1, // Puedes personalizar el valor del modificador
         ];

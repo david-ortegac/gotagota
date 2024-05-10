@@ -19,6 +19,7 @@ return new class extends Migration
          */
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('route_id')->references('id')->on('routes');
             $table->foreignId('client_id')->references('id')->on('clients');
             $table->decimal('amount'); //MONTO
             $table->string('paymentDays'); //fecha pago
@@ -27,11 +28,12 @@ return new class extends Migration
             $table->decimal('lastInstallment'); //ULTIMA CUOTA (PAGO)
             $table->decimal('remainingBalance'); // si da menos de la cuota (PICO)
             $table->decimal('remainingAmount'); // saldo restante
-            
+
             $table->integer('daysPastDue'); // dias de mora
             $table->date('lastPayment'); // ultimo pago
             $table->date('startDate'); // fecha inicio
             $table->date('finalDate'); // fecha final
+            $table->boolean('status')->default(true); // estado del credito para reencauche
 
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');

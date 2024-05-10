@@ -22,6 +22,7 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { PaginatorModule } from 'primeng/paginator';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 
 import { SedesComponent } from './components/sedes/sedes.component';
@@ -33,6 +34,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DropdownModule } from 'primeng/dropdown';
 import {LoansComponent} from "./components/loans/loans.component";
+import {FloatLabelModule} from "primeng/floatlabel";
+import {CalendarModule} from "primeng/calendar";
 
 
 @NgModule({
@@ -61,7 +64,9 @@ import {LoansComponent} from "./components/loans/loans.component";
     PasswordModule,
     DropdownModule,
     ReactiveFormsModule,
+    ScrollPanelModule,
     PaginatorModule,
+    FloatLabelModule,
     NgxPaginationModule,
     ProgressSpinnerModule,
     ButtonModule,
@@ -71,7 +76,8 @@ import {LoansComponent} from "./components/loans/loans.component";
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    CalendarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

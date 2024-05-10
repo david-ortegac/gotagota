@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\LoansController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\SedeController;
 use Illuminate\Http\Request;
@@ -36,9 +37,9 @@ Route::get('/clientes_all', [ClientController::class, 'getAll'])->name('clients.
 Route::get('/clientes/search_by_document/{document}', [ClientController::class, 'searchByDocumentNumber'])->name('clients.searchByDocumentNumber')->middleware(['auth:sanctum']);
 
 
+Route::resource('/loans', LoansController::class)->middleware(['auth:sanctum']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::resource('/clients', ClientController::class);
