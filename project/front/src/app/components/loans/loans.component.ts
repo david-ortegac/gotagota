@@ -3,7 +3,7 @@ import {ClientsService} from "../../services/clients/clients.service";
 import {RoutesService} from "../../services/routes/routes.service";
 import {Route} from "../../models/Route";
 import {decrypt} from "../../utils/util-encrypt";
-import {FormArray, FormBuilder, FormControl, FormGroup, FormGroupName, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {DropdownChangeEvent} from "primeng/dropdown";
 import {LoansService} from "../../services/loans/loans.service";
 import {Loan} from "../../models/Loan";
@@ -21,6 +21,7 @@ export class LoansComponent implements OnInit {
   selectedRouteItem: Route | undefined
   currentDate: string = "";
   selectedDate: Date = new Date();
+  myGroup: FormGroup;
 
   constructor(
     private readonly clientsService: ClientsService,
@@ -30,6 +31,9 @@ export class LoansComponent implements OnInit {
   ) {
     this.form = new FormGroup({
       loansFormArray: new FormArray([])
+    });
+    this.myGroup = this.fb.group({
+      selectedRouteItem: new FormControl('')
     });
     this.getAllRoutes();
   }
@@ -76,27 +80,9 @@ export class LoansComponent implements OnInit {
     this.loansService.getLoansByRouteId(id).subscribe(res => {
       console.log(res.data)
       res.data.forEach(el => {
-        const loansDecrypted: Loan = {
-          client: {
-            id: el.client?.id,
-            name: decrypt(el.client?.name!),
-            last_name: decrypt(el.client?.last_name!),
-          },
-          deposit: el.deposit,
-          lastInstallment: el.lastInstallment,
-          remainingBalance: el.remainingBalance,
-          remainingAmount: el.remainingAmount,
-          daysPastDue: el.daysPastDue,
-          lastPayment: el.lastPayment,
-          startDate: el.startDate,
-          finalDate: el.finalDate,
-          status: el.status,
-        }
-
-
-        const loansFromBack = this.fb.group({
+        const loansFromBack: FormGroup = this.fb.group({
           nro: new FormControl(el.order),
-          nombres: new FormControl(decrypt(el.client?.last_name!)+", "+ decrypt(el.client?.name!)),
+          nombres: new FormControl(decrypt(el.client?.last_name!) + ", " + decrypt(el.client?.name!)),
           monto: new FormControl(el.amount),
           cobroDiario: new FormControl(el.paymentType),
           diasCredito: new FormControl(el.paymentDays),
@@ -140,6 +126,7 @@ export class LoansComponent implements OnInit {
   selectedRoute(event: DropdownChangeEvent) {
     this.selectedRouteItem = event.value;
     this.getAllLoansByRouteId(this.selectedRouteItem?.id);
+    console.log(event);
   }
 
   dateChanged(event: Date) {
