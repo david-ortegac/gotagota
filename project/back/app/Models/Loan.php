@@ -109,7 +109,8 @@ class Loan extends Model
      */
     public function route(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Route::class, 'route_id', 'id');
+        return $this->belongsTo(\App\Models\Route::class, 'route_id', 'id')
+            ->select(array('id', 'name'));
     }
 
     /**
