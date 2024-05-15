@@ -2,11 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {ClientsService} from "../../services/clients/clients.service";
 import {RoutesService} from "../../services/routes/routes.service";
 import {Route} from "../../models/Route";
-import {decrypt} from "../../utils/util-encrypt";
+import {decrypt, encrypt} from "../../utils/util-encrypt";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {DropdownChangeEvent} from "primeng/dropdown";
 import {LoansService} from "../../services/loans/loans.service";
 import {Loan} from "../../models/Loan";
+import {Client} from "../../models/Client";
 
 @Component({
   selector: 'app-loans',
@@ -21,7 +22,9 @@ export class LoansComponent implements OnInit {
   selectedRouteItem: Route | undefined;
   currentDate: string = "";
   selectedDate: Date = new Date();
+  formSearchClient: FormGroup;
   myGroup: FormGroup;
+  client: Client | undefined
 
   constructor(
     private readonly clientsService: ClientsService,
@@ -29,6 +32,9 @@ export class LoansComponent implements OnInit {
     private readonly loansService: LoansService,
     private fb: FormBuilder
   ) {
+    this.formSearchClient = new FormGroup({
+      clientDocument: new FormControl('', [Validators.min(3), Validators.required]),
+    })
     this.form = new FormGroup({
       loansFormArray: new FormArray([])
     });
@@ -78,8 +84,11 @@ export class LoansComponent implements OnInit {
   }
 
   openSearchByDocument() {
-    this.search = true;
-    console.log(this.search);
+    console.log(this.formSearchClient.get('clientDocument')?.value);
+    this.clientsService.getClientByDocumentNumber(encrypt(String(this.formSearchClient.get('clientDocument')?.value))).subscribe(res=>{
+      this.client = res;
+      console.log(res);
+    })
   }
 
   closeSearchByDocument() {
