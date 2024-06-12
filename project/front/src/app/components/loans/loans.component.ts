@@ -8,6 +8,7 @@ import {DropdownChangeEvent} from "primeng/dropdown";
 import {LoansService} from "../../services/loans/loans.service";
 import {Loan} from "../../models/Loan";
 import {Client} from "../../models/Client";
+import { PanelModule } from 'primeng/panel';
 
 
 @Component({
